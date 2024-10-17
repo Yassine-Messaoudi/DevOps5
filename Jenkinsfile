@@ -22,12 +22,21 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        
-        stage('Deploy') {
+
+        stage('Docker Build') {
             steps {
-                // Ajouter des étapes pour déployer votre application
-                echo 'Déploiement de l\'application...'
-                // Exemple : sh 'docker-compose up -d'
+                // Construire l'image Docker
+                sh 'docker build -t devops-project-spring:latest .'
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                // Arrêter le conteneur existant s'il est en cours d'exécution
+                sh 'docker rm -f devops-app || true'
+                
+                // Exécuter l'image Docker sur le port 8081
+                sh 'docker run -d --name devops-app -p 8081:8080 devops-project-spring:latest'
             }
         }
     }

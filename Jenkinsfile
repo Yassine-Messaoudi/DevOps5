@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                // Cloner le dépôt
-                git branch: 'main', url: 'https://github.com/Yassynmss/DevopsProject.git'
+                // Cloner le dépôt avec les identifiants
+                git credentialsId: 'github-pat', branch: 'main', url: 'https://github.com/Yassynmss/DevopsProject.git'
             }
         }
         
@@ -25,7 +25,7 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                // Ici, vous pouvez ajouter des étapes pour déployer votre application
+                // Ajouter des étapes pour déployer votre application
                 echo 'Déploiement de l\'application...'
                 // Exemple : sh 'docker-compose up -d'
             }

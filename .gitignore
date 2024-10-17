@@ -1,10 +1,9 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
+# Ignorer les fichiers générés par les IDE (IntelliJ, Eclipse, NetBeans, VSCode, etc.)
+*.iws
+*.iml
+*.ipr
+.idea/
+.vscode/
 .apt_generated
 .classpath
 .factorypath
@@ -13,21 +12,18 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
+# Ignorer les répertoires de build
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+target/
 
-### VS Code ###
-.vscode/
+# Inclure explicitement les dossiers src et pom.xml
+!src/
+!pom.xml
+
+# Exclure les sous-dossiers target dans src
+src/**/target/

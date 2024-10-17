@@ -4,6 +4,7 @@
 # Exclure explicitement les dossiers src et le fichier pom.xml pour qu'ils soient inclus
 !pom.xml
 !src/
+!Jenkinsfile
 
 # Ignorer les fichiers générés par les IDE (IntelliJ, Eclipse, NetBeans, VSCode, etc.)
 *.iws

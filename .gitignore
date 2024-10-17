@@ -1,3 +1,10 @@
+# Ignorer tous les fichiers par défaut
+*
+
+# Exclure explicitement les dossiers src et le fichier pom.xml pour qu'ils soient inclus
+!pom.xml
+!src/
+
 # Ignorer les fichiers générés par les IDE (IntelliJ, Eclipse, NetBeans, VSCode, etc.)
 *.iws
 *.iml
@@ -21,9 +28,6 @@
 build/
 target/
 
-# Inclure explicitement les dossiers src et pom.xml
-!src/
-!pom.xml
-
-# Exclure les sous-dossiers target dans src
+# Exclure les sous-dossiers de build dans src (si présents)
+src/**/build/
 src/**/target/

@@ -26,17 +26,14 @@ pipeline {
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker
-                sh 'docker build -t devops-project-spring:latest .'
+                sh 'sudo docker build -t devops-project-spring:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                // Arrêter le conteneur existant s'il est en cours d'exécution
-                sh 'docker rm -f devops-app || true'
-                
-                // Exécuter l'image Docker sur le port 8081
-                sh 'docker run -d --name devops-app -p 8081:8080 devops-project-spring:latest'
+                // Exécuter le conteneur Docker
+                sh 'sudo docker run -d -p 8081:8080 --name devops-project-spring devops-project-spring:latest'
             }
         }
     }

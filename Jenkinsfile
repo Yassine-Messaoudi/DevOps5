@@ -30,6 +30,20 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Exécuter l'analyse SonarQube
+                    sh '''
+                    mvn sonar:sonar \
+                        -Dsonar.projectKey=devops \
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.login=sqp_29adcb97b3cc446847832867eed3eb3237dd58cc
+                    '''
+                }
+            }
+        }
+
         stage('Test') {
             steps {
                 // Exécuter les tests
@@ -47,7 +61,7 @@ pipeline {
         stage('Docker Run') {
             steps {
                 // Exécuter le conteneur Docker
-                sh 'sudo docker run -d -p 8081:8080 --name devops-project-spring devops-project-spring:latest'
+                sh 'sudo docker run -d -p 8081:8080 --name devops-project-spring devopsprojectspring:latest'
             }
         }
     }

@@ -40,7 +40,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker
-                sh 'sudo docker build -t devops-project-spring:latest .'
+                sh 'sudo docker build -t devopsprojectspring:latest .'
             }
         }
 

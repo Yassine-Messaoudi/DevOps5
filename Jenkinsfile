@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        SONARQUBE_SERVER = 'http://localhost:9000'  // Remplacez par l'URL de votre serveur SonarQube
+        SONARQUBE_TOKEN = credentials('devops')  // Utilisez l'ID des identifiants que vous avez configurés pour le token SonarQube
+        SONAR_PROJECT_KEY = 'devops' // Remplacez par la clé de votre projet
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -20,6 +26,13 @@ pipeline {
             steps {
                 // Exécuter les tests
                 sh 'mvn test'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                // Exécutez l'analyse SonarQube avec Maven
+                sh "mvn sonar:sonar -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.host.url=${SONARQUBE_SERVER} -Dsonar.login=${SONARQUBE_TOKEN}"
             }
         }
 

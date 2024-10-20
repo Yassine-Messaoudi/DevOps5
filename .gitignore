@@ -32,3 +32,4 @@ target/
 # Exclure les sous-dossiers de build dans src (si présents)
 src/**/build/
 src/**/target/
+/.m2/

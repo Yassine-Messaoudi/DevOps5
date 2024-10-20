@@ -61,31 +61,31 @@ pipeline {
             }
         }
 
-        stage('Upload to Nexus') {
-            steps {
-                script {
-                    // Définir les variables Nexus
-                    def nexusUrl = "http://localhost:8081/repository/maven-releases/"
-                    def artifactId = "firstProject" // Remplacez par l'ID de votre artefact
-                    def version = "0.0.1" // Remplacez par la version souhaitée
-                    def packaging = "jar" // Remplacez par le type de votre artefact, ex: jar, war, etc.
+       stage('Upload to Nexus') {
+    steps {
+        script {
+            // Définir les variables Nexus
+            def nexusUrl = "http://localhost:8081/repository/maven-releases/"
+            def artifactId = "firstProject" // Remplacez par l'ID de votre artefact
+            def version = "0.0.1-SNAPSHOT" // Assurez-vous que cela correspond à la version dans le pom.xml
+            def packaging = "jar" // Remplacez par le type de votre artefact, ex: jar, war, etc.
 
-                    // Publier l'artefact dans Nexus
-                    sh """
-                    mvn deploy:deploy-file \
-                        -DgroupId=com.example \
-                        -DartifactId=${artifactId} \
-                        -Dversion=${version} \
-                        -Dpackaging=${packaging} \
-                        -Dfile=target/${artifactId}-${version}.${packaging} \
-                        -DrepositoryId=nexus-releases \
-                        -Durl=${nexusUrl} \
-                        -DpomFile=pom.xml
-                    """
-                }
-            }
+            // Publier l'artefact dans Nexus
+            sh """
+            mvn deploy:deploy-file \
+                -DgroupId=tn.esprit \
+                -DartifactId=${artifactId} \
+                -Dversion=${version} \
+                -Dpackaging=${packaging} \
+                -Dfile=target/${artifactId}-${version}.${packaging} \
+                -DrepositoryId=nexus-releases \
+                -Durl=${nexusUrl} \
+                -DpomFile=pom.xml
+            """
         }
     }
+}
+
 
     post {
         always {

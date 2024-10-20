@@ -7,7 +7,6 @@ pipeline {
                 script {
                     echo 'Cloning the repository...'
                 }
-                // Cloner le dépôt avec les identifiants
                 git credentialsId: 'github-pat', branch: 'main', url: 'https://github.com/Yassynmss/DevopsProject.git'
             }
         }
@@ -15,9 +14,7 @@ pipeline {
         stage('Check Out Current Directory') {
             steps {
                 script {
-                    // Afficher le répertoire courant
                     sh 'pwd'
-                    // Lister les fichiers dans le répertoire
                     sh 'ls -la'
                 }
             }
@@ -33,7 +30,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Exécuter l'analyse SonarQube
                     sh '''
                     mvn sonar:sonar \
                         -Dsonar.projectKey=devops \
@@ -61,11 +57,36 @@ pipeline {
         stage('Docker Run') {
             steps {
                 // Exécuter le conteneur Docker
-                sh 'sudo docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+                sh 'sudo docker run -d -p 8081:8080 --name devops-project-spring devopsprojectspring:latest'
+            }
+        }
+
+        stage('Upload to Nexus') {
+            steps {
+                script {
+                    // Définir les variables Nexus
+                    def nexusUrl = "http://localhost:8081/repository/maven-releases/"
+                    def artifactId = "firstProject" // Remplacez par l'ID de votre artefact
+                    def version = "0.0.1" // Remplacez par la version souhaitée
+                    def packaging = "jar" // Remplacez par le type de votre artefact, ex: jar, war, etc.
+
+                    // Publier l'artefact dans Nexus
+                    sh """
+                    mvn deploy:deploy-file \
+                        -DgroupId=com.example \
+                        -DartifactId=${artifactId} \
+                        -Dversion=${version} \
+                        -Dpackaging=${packaging} \
+                        -Dfile=target/${artifactId}-${version}.${packaging} \
+                        -DrepositoryId=nexus-releases \
+                        -Durl=${nexusUrl} \
+                        -DpomFile=pom.xml
+                    """
+                }
             }
         }
     }
-    
+
     post {
         always {
             echo 'Pipeline finished.'

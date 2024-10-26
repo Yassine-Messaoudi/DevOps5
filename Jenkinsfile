@@ -11,14 +11,14 @@ pipeline {
             }
         }
 
-        stage('Check Out Current Directory') {
-            steps {
-                script {
-                    sh 'pwd'
-                    sh 'ls -la'
-                }
-            }
+  stage('Check Target Directory') {
+    steps {
+        script {
+            sh 'ls -la target/'
         }
+    }
+}
+
 
         stage('Build') {
             steps {

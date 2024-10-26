@@ -61,16 +61,18 @@ pipeline {
             }
         }
 
-       stage('Upload to Nexus') {
+        stage('Upload to Nexus') {
     steps {
         script {
-            // Définir les variables Nexus
-            def nexusUrl = "http://localhost:8081/repository/maven-releases/"
-            def artifactId = "firstProject" // Remplacez par l'ID de votre artefact
-            def version = "0.0.1-SNAPSHOT" // Assurez-vous que cela correspond à la version dans le pom.xml
-            def packaging = "jar" // Remplacez par le type de votre artefact, ex: jar, war, etc.
+            def nexusUrl = "http://localhost:8081/repository/"
+            def artifactId = "firstProject"
+            def version = "0.0.1-SNAPSHOT"
+            def packaging = "jar"
+            def nexusUser = "admin"
+            def nexusPassword = "Aa2255860955@"
+            def repository = version.contains("SNAPSHOT") ? "maven-snapshots" : "maven-releases"
 
-            // Publier l'artefact dans Nexus
+            // Publier l'artefact dans Nexus avec authentification
             sh """
             mvn deploy:deploy-file \
                 -DgroupId=tn.esprit \
@@ -78,13 +80,19 @@ pipeline {
                 -Dversion=${version} \
                 -Dpackaging=${packaging} \
                 -Dfile=target/${artifactId}-${version}.${packaging} \
-                -DrepositoryId=nexus-releases \
-                -Durl=${nexusUrl} \
-                -DpomFile=pom.xml
+                -DrepositoryId=deploymentRepo \
+                -Durl=${nexusUrl}${repository}/ \
+                -DpomFile=pom.xml \
+                -Dusername=${nexusUser} \
+                -Dpassword=${nexusPassword}
             """
         }
     }
 }
+
+
+
+
     }
 
     post {

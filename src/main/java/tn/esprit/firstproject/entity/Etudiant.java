@@ -7,7 +7,9 @@ import org.springframework.core.SpringVersion;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,6 +30,6 @@ public class Etudiant implements Serializable {
     private Date dateNaissance;
     @ToString.Exclude
     @JsonIgnore
-    @ManyToMany(mappedBy = "etudiants",cascade = CascadeType.ALL)
-    private Set<Reservation>reservations;
+    @ManyToMany(mappedBy = "etudiants")
+    private List<Reservation> reservations = new ArrayList<>();
 }

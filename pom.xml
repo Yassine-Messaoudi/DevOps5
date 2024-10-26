@@ -10,7 +10,11 @@
     </parent>
     <groupId>tn.esprit</groupId>
     <artifactId>firstProject</artifactId>
+<<<<<<< HEAD
     <version>0.0.1</version>
+=======
+        <version>0.0.1</version>
+>>>>>>> a7d0b7997216406502851672fe12dc612d269b4d
     <name>firstProject</name>
     <description>firstProject</description>
     <properties>

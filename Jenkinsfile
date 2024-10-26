@@ -7,18 +7,18 @@ pipeline {
                 script {
                     echo 'Cloning the repository...'
                 }
-                git credentialsId: 'github-pat', branch: 'main', url: 'https://github.com/Yassynmss/DevopsProject.git'
+                git credentialsId: 'hola', branch: 'YassineDevOpss', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
 
-        stage('Check Out Current Directory') {
-            steps {
-                script {
-                    sh 'pwd'
-                    sh 'ls -la'
-                }
-            }
+  stage('Check Target Directory') {
+    steps {
+        script {
+            sh 'ls -la target/'
         }
+    }
+}
+
 
         stage('Build') {
             steps {
@@ -61,16 +61,16 @@ pipeline {
             }
         }
 
-        stage('Upload to Nexus') {
+      stage('Upload to Nexus') {
     steps {
         script {
             def nexusUrl = "http://localhost:8081/repository/"
             def artifactId = "firstProject"
-            def version = "0.0.1-SNAPSHOT"
+            def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
             def packaging = "jar"
             def nexusUser = "admin"
             def nexusPassword = "Aa2255860955@"
-            def repository = version.contains("SNAPSHOT") ? "maven-snapshots" : "maven-releases"
+            def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
 
             // Publier l'artefact dans Nexus avec authentification
             sh """
@@ -89,9 +89,6 @@ pipeline {
         }
     }
 }
-
-
-
 
     }
 

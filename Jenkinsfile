@@ -62,37 +62,33 @@ pipeline {
         }
 
         stage('Upload to Nexus') {
-    steps {
-        script {
-            def nexusUrl = "http://localhost:8081/repository/"
-            def artifactId = "firstProject"
-            def version = "0.0.1-SNAPSHOT"
-            def packaging = "jar"
-            def nexusUser = "admin"
-            def nexusPassword = "Aa2255860955@"
-            def repository = version.contains("SNAPSHOT") ? "maven-snapshots" : "maven-releases"
+            steps {
+                script {
+                    def nexusUrl = "http://localhost:8081/repository/"
+                    def artifactId = "firstProject"
+                    def version = "0.0.1"  // Version de release
+                    def packaging = "jar"
+                    def nexusUser = "admin"
+                    def nexusPassword = "Aa2255860955@"
+                    def repository = "maven-releases"  // Spécifiez toujours le dépôt pour les releases
 
-            // Publier l'artefact dans Nexus avec authentification
-            sh """
-            mvn deploy:deploy-file \
-                -DgroupId=tn.esprit \
-                -DartifactId=${artifactId} \
-                -Dversion=${version} \
-                -Dpackaging=${packaging} \
-                -Dfile=target/${artifactId}-${version}.${packaging} \
-                -DrepositoryId=deploymentRepo \
-                -Durl=${nexusUrl}${repository}/ \
-                -DpomFile=pom.xml \
-                -Dusername=${nexusUser} \
-                -Dpassword=${nexusPassword}
-            """
+                    // Publier l'artefact dans Nexus avec authentification
+                    sh """
+                    mvn deploy:deploy-file \
+                        -DgroupId=tn.esprit \
+                        -DartifactId=${artifactId} \
+                        -Dversion=${version} \
+                        -Dpackaging=${packaging} \
+                        -Dfile=target/${artifactId}-${version}.${packaging} \
+                        -DrepositoryId=deploymentRepo \
+                        -Durl=${nexusUrl}${repository}/ \
+                        -DpomFile=pom.xml \
+                        -Dusername=${nexusUser} \
+                        -Dpassword=${nexusPassword}
+                    """
+                }
+            }
         }
-    }
-}
-
-
-
-
     }
 
     post {

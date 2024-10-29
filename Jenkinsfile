@@ -7,7 +7,7 @@ pipeline {
                 script {
                     echo 'Cloning the repository...'
                 }
-                git credentialsId: 'hola', branch: 'YassineDevOpss', url: 'https://github.com/Yassynmss/DevOps5.git'
+                git credentialsId: 'hola', branch: 'Maryem', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
 

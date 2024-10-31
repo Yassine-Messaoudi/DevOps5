@@ -26,6 +26,12 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+                stage('Start Test Database') {
+            steps {
+                sh 'docker-compose -f src/main/resources/docker-compose.yml up -d test-mysql'
+            }
+        }
+
 
         stage('SonarQube Analysis') {
             steps {

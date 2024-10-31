@@ -9,10 +9,11 @@ services:
       - "8082:8080"  # Mappe le port 8080 de l'application au port 8082 de l'hôte
     networks:
       - app-network
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://172.20.0.1:3306/4se21
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ""  # Environnements vides pour les mots de passe
+   environment:
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/4se21
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_DATASOURCE_PASSWORD: root
+
 
   mysql:
     image: mysql:latest

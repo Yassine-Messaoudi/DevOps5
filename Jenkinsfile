@@ -18,6 +18,12 @@ pipeline {
                 }
             }
         }
+         stage('Build') {
+            steps {
+                // Construire le projet avec Maven
+                sh 'mvn clean package'
+            }
+        }
 
         stage('Build Docker Image Backend') {
             steps {
@@ -32,12 +38,7 @@ pipeline {
             }
         }
         
-        stage('Build') {
-            steps {
-                // Construire le projet avec Maven
-                sh 'mvn clean package'
-            }
-        }
+       
         
         stage('Start Docker Compose') {
             steps {

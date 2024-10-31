@@ -7,7 +7,7 @@ pipeline {
                 script {
                     echo 'Cloning the repository...'
                 }
-                git credentialsId: 'hola', branch: 'Maryem', url: 'https://github.com/Yassynmss/DevOps5.git'
+                git credentialsId: 'maryemderbali', branch: 'Maryem', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
 
@@ -32,9 +32,9 @@ pipeline {
                 script {
                     sh '''
                     mvn sonar:sonar \
-                        -Dsonar.projectKey=devops \
+                        -Dsonar.projectKey=Maryemdev  \
                         -Dsonar.host.url=http://localhost:9000 \
-                        -Dsonar.login=sqp_29adcb97b3cc446847832867eed3eb3237dd58cc
+                        -Dsonar.login=sqp_809b72d1c12e57291884c6dff3077f41af9cdf94
                     '''
                 }
             }
@@ -69,7 +69,7 @@ pipeline {
             def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
             def packaging = "jar"
             def nexusUser = "admin"
-            def nexusPassword = "Aa2255860955@"
+            def nexusPassword = nexus"
             def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
 
             // Publier l'artefact dans Nexus avec authentification

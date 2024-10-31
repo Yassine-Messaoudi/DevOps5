@@ -21,7 +21,7 @@ services:
     networks:
       - app-network
     environment:
-      MYSQL_ROOT_PASSWORD: ""  # Pas de mot de passe pour l'utilisateur root
+      MYSQL_ROOT_PASSWORD: root  # Pas de mot de passe pour l'utilisateur root
       MYSQL_DATABASE: 4se21
     volumes:
       - mysql_data:/var/lib/mysql

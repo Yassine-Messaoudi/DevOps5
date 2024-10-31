@@ -12,16 +12,16 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/4se21
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_PASSWORD=  # Pas de mot de passe
 
   mysql:
     image: mysql:latest
     ports:
-      - "3306:3306"  # Mappe le port 3306 du conteneur MySQL
+      - "3306:3306"  # Mappe le port 3306 de MySQL
     networks:
       - app-network
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ""  # Pas de mot de passe pour l'utilisateur root
       MYSQL_DATABASE: 4se21
     volumes:
       - mysql_data:/var/lib/mysql
@@ -31,7 +31,7 @@ services:
     networks:
       - app-network
     environment:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: ""  # Pas de mot de passe pour l'utilisateur root
       MYSQL_DATABASE: 4se21  # Nom de la base de données pour les tests
     volumes:
       - test_mysql_data:/var/lib/mysql

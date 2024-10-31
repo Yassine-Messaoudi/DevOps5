@@ -19,7 +19,11 @@ pipeline {
     }
 }
 
-
+      stage('Build Docker Image Backend') {
+            steps {
+                sh 'docker build -t yassine121/5se2 .'
+            }
+        }
         stage('Build') {
             steps {
                 // Construire le projet avec Maven

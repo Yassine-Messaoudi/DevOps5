@@ -51,7 +51,7 @@ pipeline {
             steps {
                 // Construire l'image Docker
                 sh 'sudo docker build -t devopsprojectspring:latest .'
-'
+
 
             }
         }

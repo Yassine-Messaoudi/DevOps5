@@ -1,19 +1,27 @@
-version: "3"
+version: "3.8"
+
 services:
   mysqldb:
     image: mysql:8
     ports:
-      - 3306:3306
-  
+      - "3306:3306"
     environment:
-      - MYSQL_DATABASE=4se21 
-      - DATABASE_DRIVER=com.mysql.cj.jdbc.Driver
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=4se21
+      - MYSQL_ROOT_PASSWORD=
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:    # Pour s'assurer que MySQL est prêt avant de lancer le service Spring Boot
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 10s
+      retries: 3
+
   springboot:
     image: yassine121/5se2:latest
     ports:
       - "8082:8080"
-   
     depends_on:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
 
+volumes:
+  mysql_data:

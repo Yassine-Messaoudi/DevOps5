@@ -6,11 +6,11 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=4se21
-      - MYSQL_ROOT_PASSWORD=
+      MYSQL_DATABASE: 4se21          # Nom de la base de données à créer
+      MYSQL_ROOT_PASSWORD: ""         # Mot de passe vide pour l'utilisateur root
     volumes:
       - mysql_data:/var/lib/mysql
-    healthcheck:    # Pour s'assurer que MySQL est prêt avant de lancer le service Spring Boot
+    healthcheck:                     # Pour s'assurer que MySQL est prêt avant de lancer le service Spring Boot
       test: ["CMD", "mysqladmin", "ping", "--silent"]
       interval: 10s
       retries: 3

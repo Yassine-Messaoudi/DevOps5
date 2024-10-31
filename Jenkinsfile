@@ -36,6 +36,17 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('Start Docker Compose') {
+            steps {
+                    sh 'docker-compose up -d'
+                }
+            }
+        stage('check Docker Compose') {
+            steps {
+                    sh 'docker  ps'
+                }
+              }
+    }
                 stage('Start Test Database') {
             steps {
                 sh 'docker-compose -f src/main/resources/docker-compose.yml up -d test-mysql'

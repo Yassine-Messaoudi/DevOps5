@@ -59,7 +59,7 @@ pipeline {
         stage('Docker Run') {
             steps {
                 // Exécuter le conteneur Docker
-                sh 'sudo docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+                sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
             }
         }
 

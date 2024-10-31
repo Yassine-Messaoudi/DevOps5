@@ -10,7 +10,7 @@ services:
     networks:
       - app-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/4se21
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/4se21
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ""  # Environnements vides pour les mots de passe
 

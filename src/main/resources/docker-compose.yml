@@ -31,7 +31,7 @@ services:
     networks:
       - app-network
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: 4se21  # Nom de la base de données pour les tests
     volumes:
       - test_mysql_data:/var/lib/mysql

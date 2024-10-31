@@ -24,6 +24,12 @@ pipeline {
                 sh 'docker build -t yassine121/5se2 .'
             }
         }
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                sh 'docker login -u yassine121 -p Aa2255860955'
+                sh 'docker push yassine121/5se2'
+            }
+        }
         stage('Build') {
             steps {
                 // Construire le projet avec Maven

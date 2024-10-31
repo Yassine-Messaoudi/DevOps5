@@ -69,7 +69,7 @@ pipeline {
             def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
             def packaging = "jar"
             def nexusUser = "admin"
-            def nexusPassword = nexus"
+            def nexusPassword = "nexus"
             def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
 
             // Publier l'artefact dans Nexus avec authentification

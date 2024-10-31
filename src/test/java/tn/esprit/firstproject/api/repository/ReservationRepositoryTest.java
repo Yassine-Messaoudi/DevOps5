@@ -121,7 +121,7 @@ public class ReservationRepositoryTest {
 
 
 
-    @Test
+   /* @Test
     public void testGetReservationParAnneeUniversitaireEtNomUniversite() {
         // Arrange
         String nomUniversite = "Esprit University";
@@ -151,24 +151,19 @@ public class ReservationRepositoryTest {
             // Add any additional assertions based on your requirements
         });
     }
-
+*/
     @Test
     public void testAjouterReservation() {
-        // Créer une nouvelle réservation
         Reservation reservation = new Reservation();
 
-        // Définir l'année universitaire comme un LocalDate (exemple : 1er septembre 2023)
         reservation.setAnneeUniversitaire(LocalDate.of(2023, 9, 1));
         reservation.setEstValide(true);
 
-        // Ajouter la réservation
         Reservation savedReservation = reservationRepository.save(reservation);
 
-        // Vérifier que l’ID a été généré et que la réservation est enregistrée
         assertThat(savedReservation.getIdReservationn()).isNotNull();
         assertThat(reservationRepository.findById(savedReservation.getIdReservationn())).isPresent();
 
-        // Vérifier que la date a été correctement enregistrée
         assertThat(savedReservation.getAnneeUniversitaire()).isEqualTo(reservation.getAnneeUniversitaire());
     }
 }

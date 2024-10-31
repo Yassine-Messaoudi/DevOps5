@@ -11,48 +11,51 @@ pipeline {
             }
         }
 
-  stage('Check Target Directory') {
-    steps {
-        script {
-            sh 'ls -la target/'
+        stage('Check Target Directory') {
+            steps {
+                script {
+                    sh 'ls -la target/'
+                }
+            }
         }
-    }
-}
 
-      stage('Build Docker Image Backend') {
+        stage('Build Docker Image Backend') {
             steps {
                 sh 'docker build -t yassine121/5se2 .'
             }
         }
+        
         stage('Push Docker Image to Docker Hub') {
             steps {
                 sh 'docker login -u yassine121 -p Aa2255860955'
                 sh 'docker push yassine121/5se2'
             }
         }
+        
         stage('Build') {
             steps {
                 // Construire le projet avec Maven
                 sh 'mvn clean package'
             }
         }
+        
         stage('Start Docker Compose') {
             steps {
-                    sh 'docker-compose up -d'
-                }
+                sh 'docker-compose up -d'
             }
-        stage('check Docker Compose') {
+        }
+        
+        stage('Check Docker Compose') {
             steps {
-                    sh 'docker  ps'
-                }
-              }
-    }
-                stage('Start Test Database') {
+                sh 'docker ps'
+            }
+        }
+        
+        stage('Start Test Database') {
             steps {
                 sh 'docker-compose -f src/main/resources/docker-compose.yml up -d test-mysql'
             }
         }
-
 
         stage('SonarQube Analysis') {
             steps {
@@ -88,35 +91,34 @@ pipeline {
             }
         }
 
-      stage('Upload to Nexus') {
-    steps {
-        script {
-            def nexusUrl = "http://localhost:8081/repository/"
-            def artifactId = "firstProject"
-            def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
-            def packaging = "jar"
-            def nexusUser = "admin"
-            def nexusPassword = "Aa2255860955@"
-            def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
+        stage('Upload to Nexus') {
+            steps {
+                script {
+                    def nexusUrl = "http://localhost:8081/repository/"
+                    def artifactId = "firstProject"
+                    def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
+                    def packaging = "jar"
+                    def nexusUser = "admin"
+                    def nexusPassword = "Aa2255860955@"
+                    def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
 
-            // Publier l'artefact dans Nexus avec authentification
-            sh """
-            mvn deploy:deploy-file \
-                -DgroupId=tn.esprit \
-                -DartifactId=${artifactId} \
-                -Dversion=${version} \
-                -Dpackaging=${packaging} \
-                -Dfile=target/${artifactId}-${version}.${packaging} \
-                -DrepositoryId=deploymentRepo \
-                -Durl=${nexusUrl}${repository}/ \
-                -DpomFile=pom.xml \
-                -Dusername=${nexusUser} \
-                -Dpassword=${nexusPassword}
-            """
+                    // Publier l'artefact dans Nexus avec authentification
+                    sh """
+                    mvn deploy:deploy-file \
+                        -DgroupId=tn.esprit \
+                        -DartifactId=${artifactId} \
+                        -Dversion=${version} \
+                        -Dpackaging=${packaging} \
+                        -Dfile=target/${artifactId}-${version}.${packaging} \
+                        -DrepositoryId=deploymentRepo \
+                        -Durl=${nexusUrl}${repository}/ \
+                        -DpomFile=pom.xml \
+                        -Dusername=${nexusUser} \
+                        -Dpassword=${nexusPassword}
+                    """
+                }
+            }
         }
-    }
-}
-
     }
 
     post {

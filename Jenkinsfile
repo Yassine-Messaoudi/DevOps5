@@ -50,7 +50,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker
-                sh 'sudo docker build -t devopsprojectspring:latest .'
+                sh 'echo "Marye27505009" | sudo -S docker build -t devopsprojectspring:latest .'
+
             }
         }
 

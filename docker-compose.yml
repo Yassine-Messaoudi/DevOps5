@@ -10,9 +10,11 @@ services:
     networks:
       - app-network
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/4se21
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb/tpFoyer17
+      - SPRING_DATASOURCE_USERNAME: root
+      - SPRING_DATASOURCE_PASSWORD: root
+      depends_on:
+      - mysqldb
 
   mysql:
     image: mysql:latest

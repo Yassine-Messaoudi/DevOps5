@@ -10,20 +10,22 @@ pipeline {
                 git credentialsId: 'hola', branch: 'YassineDevOpss', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
-    stage('Build') {
+
+        stage('Build') {
             steps {
                 // Construire le projet avec Maven
                 sh 'mvn clean package'
             }
         }
+
         stage('Check Target Directory') {
             steps {
                 script {
+                    echo 'Listing target directory contents:'
                     sh 'ls -la target/'
                 }
             }
         }
-     
 
         stage('Build Docker Image Backend') {
             steps {
@@ -33,12 +35,13 @@ pipeline {
 
         stage('Push Docker Image to Docker Hub') {
             steps {
+                script {
+                    echo 'Logging in to Docker Hub...'
+                }
                 sh 'docker login -u yassine121 -p Aa2255860955'
                 sh 'docker push yassine121/5se2'
             }
         }
-
-
 
         stage('Start Docker Compose') {
             steps {
@@ -49,6 +52,8 @@ pipeline {
         stage('Check Docker Compose') {
             steps {
                 sh 'docker ps'
+                // Affichez les logs pour plus de détails sur les conteneurs
+                sh 'docker-compose logs'
             }
         }
 
@@ -74,21 +79,21 @@ pipeline {
         stage('Test') {
             steps {
                 // Exécuter les tests
-                sh 'mvn test -DskipTests'
+                sh 'mvn test' // Enlevez -DskipTests si vous souhaitez exécuter les tests
             }
         }
 
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker
-                sh 'sudo docker build -t devopsprojectspringYASSINE:latest .'
+                sh 'docker build -t devopsprojectspringYASSINE:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
                 // Exécuter le conteneur Docker
-                sh 'sudo docker run -d -p 8082:8080 --name devops-project-springYASSINE devopsprojectspringYASSINE:latest'
+                sh 'docker run -d -p 8082:8080 --name devops-project-springYASSINE devopsprojectspringYASSINE:latest'
             }
         }
 
@@ -101,7 +106,7 @@ pipeline {
                     def packaging = "jar"
                     def nexusUser = "admin"
                     def nexusPassword = "Aa2255860955@"
-                    def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
+                    def repository = "maven-releases"
 
                     // Publier l'artefact dans Nexus avec authentification
                     sh """

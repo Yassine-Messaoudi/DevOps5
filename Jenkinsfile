@@ -13,7 +13,7 @@ pipeline {
     stage('Build') {
             steps {
                 // Construire le projet avec Maven
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean'
             }
         }
         stage('Check Target Directory') {
@@ -88,7 +88,7 @@ pipeline {
         stage('Docker Run') {
             steps {
                 // Exécuter le conteneur Docker
-                sh 'sudo docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+                sh 'sudo docker run -d -p 8082:8080 --name devops-project-springYASSINE devopsprojectspringYASSINE:latest'
             }
         }
 

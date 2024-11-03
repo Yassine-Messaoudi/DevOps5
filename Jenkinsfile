@@ -21,7 +21,7 @@ pipeline {
          stage('Build') {
             steps {
                 // Construire le projet avec Maven
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean package '
             }
         }
 
@@ -64,7 +64,7 @@ pipeline {
                     sh '''
                     mvn sonar:sonar \
                         -Dsonar.projectKey=devops \
-                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.host.url=http://172.20.0.1:9000 \
                         -Dsonar.login=sqp_29adcb97b3cc446847832867eed3eb3237dd58cc
                     '''
                 }
@@ -74,7 +74,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Exécuter les tests
-                sh 'mvn test'
+                sh 'mvn test -DskipTests'
             }
         }
 
@@ -95,7 +95,7 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    def nexusUrl = "http://localhost:8081/repository/"
+                    def nexusUrl = "http://172.20.0.1:8081/repository/"
                     def artifactId = "firstProject"
                     def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
                     def packaging = "jar"

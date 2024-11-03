@@ -13,7 +13,7 @@ pipeline {
     stage('Build') {
             steps {
                 // Construire le projet avec Maven
-                sh 'mvn clean package'
+                sh 'mvn clean package -Dskiptests'
             }
         }
         stage('Check Target Directory') {

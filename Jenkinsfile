@@ -86,14 +86,14 @@ pipeline {
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker
-                sh 'docker build -t devopsYASSINE:latest .'
+                sh 'docker build -t devopsyassine:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
                 // Exécuter le conteneur Docker
-                sh 'docker run -d -p 8082:8080 --name devops-YASSINE devopsYASSINE:latest'
+                sh 'docker run -d -p 8082:8080 --name devops-yassine devopsyassine:latest'
             }
         }
 

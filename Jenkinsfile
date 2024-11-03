@@ -81,7 +81,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker
-                sh 'sudo docker build -t devopsprojectspring:latest .'
+                sh 'sudo docker build -t devopsprojectspringYASSINE:latest .'
             }
         }
 
@@ -95,7 +95,7 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    def nexusUrl = "http://172.20.0.1:8081/repository/"
+                    def nexusUrl = "http://localhost:8081/repository/"
                     def artifactId = "firstProject"
                     def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
                     def packaging = "jar"

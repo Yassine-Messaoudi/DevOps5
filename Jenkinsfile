@@ -64,7 +64,7 @@ pipeline {
                     sh '''
                     mvn sonar:sonar \
                         -Dsonar.projectKey=devops \
-                        -Dsonar.host.url=http://172.20.0.1:9000 \
+                        -Dsonar.host.url=http://localhost:9000 \
                         -Dsonar.login=sqp_29adcb97b3cc446847832867eed3eb3237dd58cc
                     '''
                 }
@@ -74,7 +74,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Exécuter les tests
-                sh 'mvn test -DskipTests'
+                sh 'mvn test'
             }
         }
 

@@ -10,7 +10,12 @@ pipeline {
                 git credentialsId: 'hola', branch: 'YassineDevOpss', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
-
+    stage('Build') {
+            steps {
+                // Construire le projet avec Maven
+                sh 'mvn clean'
+            }
+        }
         stage('Check Target Directory') {
             steps {
                 script {
@@ -18,12 +23,7 @@ pipeline {
                 }
             }
         }
-         stage('Build') {
-            steps {
-                // Construire le projet avec Maven
-                sh 'mvn clean'
-            }
-        }
+     
 
         stage('Build Docker Image Backend') {
             steps {

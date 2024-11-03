@@ -54,7 +54,7 @@ pipeline {
 
         stage('Start Test Database') {
             steps {
-                sh 'docker-compose -f src/main/resources/docker-compose.yml up -d test-mysql'
+                sh 'docker-compose -f docker-compose.yml up -d test-mysql'
             }
         }
 

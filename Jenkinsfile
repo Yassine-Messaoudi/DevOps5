@@ -27,6 +27,28 @@ pipeline {
             }
         }
 
+        stage('JaCoCo Coverage Report') {
+            steps {
+                script {
+                    // Exécuter la phase verify pour générer le rapport JaCoCo
+                    sh 'mvn verify'
+                }
+            }
+        }
+
+        stage('Publish JaCoCo Report') {
+            steps {
+                script {
+                    // Publier le rapport de couverture JaCoCo si vous utilisez Jenkins avec le plugin JaCoCo
+                    publishHTML(target: [
+                        reportName: 'JaCoCo Coverage Report',
+                        reportDir: 'target/jacoco-report',
+                        reportFiles: 'index.html'
+                    ])
+                }
+            }
+        }
+
         stage('Build Docker Image Backend') {
             steps {
                 sh 'docker build -t yassine121/5se2 .'
@@ -129,6 +151,8 @@ pipeline {
 
     post {
         always {
+            // Nettoyage ou actions post-pipeline
+            cleanWs()
             echo 'Pipeline finished.'
         }
         success {

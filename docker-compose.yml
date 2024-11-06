@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build:
-      context: src/main/java
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
@@ -17,7 +17,7 @@ services:
       - mysql
 
   mysql:
-    image: mysql:latest
+    image: mysql:5.7  # Spécifiez la version si besoin
     ports:
       - "3306:3306"
     networks:

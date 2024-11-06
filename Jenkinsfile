@@ -4,26 +4,19 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                script {
-                    echo 'Cloning the repository...'
-                }
                 git credentialsId: 'hola', branch: 'YassineDevOpss', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
 
         stage('Build') {
             steps {
-                // Construire le projet avec Maven
                 sh 'mvn clean package'
             }
         }
 
         stage('Check Target Directory') {
             steps {
-                script {
-                    echo 'Listing target directory contents:'
-                    sh 'ls -la target/'
-                }
+                sh 'ls -la target/'
             }
         }
 
@@ -35,10 +28,9 @@ pipeline {
 
         stage('Push Docker Image to Docker Hub') {
             steps {
-                script {
-                    echo 'Logging in to Docker Hub...'
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                 }
-                sh 'docker login -u yassine121 -p Aa2255860955'
                 sh 'docker push yassine121/5se2'
             }
         }
@@ -52,14 +44,7 @@ pipeline {
         stage('Check Docker Compose') {
             steps {
                 sh 'docker ps'
-                // Affichez les logs pour plus de détails sur les conteneurs
                 sh 'docker-compose logs'
-            }
-        }
-
-        stage('Start Test Database') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d mysql'
             }
         }
 
@@ -78,49 +63,37 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Exécuter les tests
-                sh 'mvn test' // Enlevez -DskipTests si vous souhaitez exécuter les tests
+                sh 'mvn test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                // Construire l'image Docker
                 sh 'docker build -t devopsyassine:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                // Exécuter le conteneur Docker
                 sh 'docker run -d -p 8083:8080 --name devops-yassine devopsyassine:latest'
             }
         }
 
         stage('Upload to Nexus') {
             steps {
-                script {
-                    def nexusUrl = "http://localhost:8081/repository/"
-                    def artifactId = "firstProject"
-                    def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
-                    def packaging = "jar"
-                    def nexusUser = "admin"
-                    def nexusPassword = "Aa2255860955@"
-                    def repository = "maven-releases"
-
-                    // Publier l'artefact dans Nexus avec authentification
+                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASSWORD')]) {
                     sh """
                     mvn deploy:deploy-file \
                         -DgroupId=tn.esprit \
-                        -DartifactId=${artifactId} \
-                        -Dversion=${version} \
-                        -Dpackaging=${packaging} \
-                        -Dfile=target/${artifactId}-${version}.${packaging} \
+                        -DartifactId=firstProject \
+                        -Dversion=0.0.1 \
+                        -Dpackaging=jar \
+                        -Dfile=target/firstProject-0.0.1.jar \
                         -DrepositoryId=deploymentRepo \
-                        -Durl=${nexusUrl}${repository}/ \
+                        -Durl=http://localhost:8081/repository/maven-releases/ \
                         -DpomFile=pom.xml \
-                        -Dusername=${nexusUser} \
-                        -Dpassword=${nexusPassword}
+                        -Dusername=$NEXUS_USER \
+                        -Dpassword=$NEXUS_PASSWORD
                     """
                 }
             }

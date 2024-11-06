@@ -42,7 +42,7 @@ pipeline {
                     // Publier le rapport de couverture JaCoCo si vous utilisez Jenkins avec le plugin JaCoCo
                     publishHTML(target: [
                         reportName: 'JaCoCo Coverage Report',
-                        reportDir: 'target/jacoco-report',
+                        reportDir: 'target/site/jacoco',
                         reportFiles: 'index.html'
                     ])
                 }

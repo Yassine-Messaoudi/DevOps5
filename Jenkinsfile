@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 // Execute unit tests
-                sh 'mvn test'
+                sh 'mvn test -Dspring.profiles.active=test'
             }
         }
 

@@ -7,7 +7,7 @@ pipeline {
                 script {
                     echo 'Cloning the repository...'
                 }
-                git credentialsId: 'hola', branch: 'YassineDevOpss', url: 'https://github.com/Yassynmss/DevOps5.git'
+                git credentialsId: 'achref', branch: 'Achref', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
 
@@ -32,9 +32,10 @@ pipeline {
                 script {
                     sh '''
                     mvn sonar:sonar \
-                        -Dsonar.projectKey=devops \
-                        -Dsonar.host.url=http://localhost:9000 \
-                        -Dsonar.login=sqp_29adcb97b3cc446847832867eed3eb3237dd58cc
+                         -Dsonar.projectKey=achrefsonar \
+                         -Dsonar.host.url=http://192.168.45.196:9000 \
+                         -Dsonar.token=sqp_42304d619cc5e296add17bd1858be9fa4d66bc53
+
                     '''
                 }
             }
@@ -64,12 +65,12 @@ pipeline {
       stage('Upload to Nexus') {
     steps {
         script {
-            def nexusUrl = "http://localhost:8081/repository/"
+            def nexusUrl = "http://192.168.45.196/:8081/repository/"
             def artifactId = "firstProject"
             def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
             def packaging = "jar"
             def nexusUser = "admin"
-            def nexusPassword = "Aa2255860955@"
+            def nexusPassword = "admin"
             def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
 
             // Publier l'artefact dans Nexus avec authentification

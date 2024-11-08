@@ -39,21 +39,20 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
-            steps {
-                echo 'Building the Docker image...'
-                // Build the Docker image
-                sh 'sudo docker build -t devopsprojectspring:latest .'
-            }
-        }
+  stage('Docker Build') {
+    steps {
+        echo 'Building the Docker image...'
+        sh 'docker build -t devopsprojectspring:latest .'
+    }
+}
 
-        stage('Docker Run') {
-            steps {
-                echo 'Running the Docker container...'
-                // Run the Docker container
-                sh 'sudo docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
-            }
-        }
+stage('Docker Run') {
+    steps {
+        echo 'Running the Docker container...'
+        sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+    }
+}
+
 
         stage('Upload to Nexus') {
             steps {

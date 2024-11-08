@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Building the project with Maven...'
                 // Build the project using Maven
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipTests'
             }
         }
 

@@ -4,32 +4,28 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                script {
-                    echo 'Cloning the repository...'
-                }
+                echo 'Cloning the repository...'
                 git credentialsId: 'achref', branch: 'Achref', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
 
- 
-
-
         stage('Build') {
             steps {
-                // Construire le projet avec Maven
+                echo 'Building the project with Maven...'
+                // Build the project using Maven
                 sh 'mvn clean install'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
+                echo 'Starting SonarQube analysis...'
                 script {
                     sh '''
                     mvn sonar:sonar \
-                         -Dsonar.projectKey=achrefsonar \
-                         -Dsonar.host.url=http://192.168.45.196:9000 \
-                         -Dsonar.token=sqp_42304d619cc5e296add17bd1858be9fa4d66bc53
-
+                        -Dsonar.projectKey=achrefsonar \
+                        -Dsonar.host.url=http://192.168.45.196:9000 \
+                        -Dsonar.token=sqp_42304d619cc5e296add17bd1858be9fa4d66bc53
                     '''
                 }
             }
@@ -37,54 +33,57 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Exécuter les tests
+                echo 'Running tests...'
+                // Execute unit tests
                 sh 'mvn test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                // Construire l'image Docker
+                echo 'Building the Docker image...'
+                // Build the Docker image
                 sh 'sudo docker build -t devopsprojectspring:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                // Exécuter le conteneur Docker
+                echo 'Running the Docker container...'
+                // Run the Docker container
                 sh 'sudo docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
             }
         }
 
-      stage('Upload to Nexus') {
-    steps {
-        script {
-            def nexusUrl = "http://192.168.45.196/:8081/repository/"
-            def artifactId = "firstProject"
-            def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
-            def packaging = "jar"
-            def nexusUser = "admin"
-            def nexusPassword = "admin"
-            def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
+        stage('Upload to Nexus') {
+            steps {
+                echo 'Uploading artifact to Nexus...'
+                script {
+                    def nexusUrl = "http://192.168.45.196:8081/repository/"
+                    def artifactId = "firstProject"
+                    def version = "0.0.1"  // Ensure this version is without -SNAPSHOT
+                    def packaging = "jar"
+                    def nexusUser = "admin"
+                    def nexusPassword = "admin"
+                    def repository = "maven-releases"  // Use this repository for release versions
 
-            // Publier l'artefact dans Nexus avec authentification
-            sh """
-            mvn deploy:deploy-file \
-                -DgroupId=tn.esprit \
-                -DartifactId=${artifactId} \
-                -Dversion=${version} \
-                -Dpackaging=${packaging} \
-                -Dfile=target/${artifactId}-${version}.${packaging} \
-                -DrepositoryId=deploymentRepo \
-                -Durl=${nexusUrl}${repository}/ \
-                -DpomFile=pom.xml \
-                -Dusername=${nexusUser} \
-                -Dpassword=${nexusPassword}
-            """
+                    // Deploy the artifact to Nexus
+                    sh """
+                    mvn deploy:deploy-file \
+                        -DgroupId=tn.esprit \
+                        -DartifactId=${artifactId} \
+                        -Dversion=${version} \
+                        -Dpackaging=${packaging} \
+                        -Dfile=target/${artifactId}-${version}.${packaging} \
+                        -DrepositoryId=deploymentRepo \
+                        -Durl=${nexusUrl}${repository}/ \
+                        -DpomFile=pom.xml \
+                        -Dusername=${nexusUser} \
+                        -Dpassword=${nexusPassword}
+                    """
+                }
+            }
         }
-    }
-}
-
     }
 
     post {
@@ -92,10 +91,10 @@ pipeline {
             echo 'Pipeline finished.'
         }
         success {
-            echo 'Le pipeline a réussi !'
+            echo 'Pipeline was successful!'
         }
         failure {
-            echo 'Le pipeline a échoué.'
+            echo 'Pipeline failed.'
         }
     }
 }

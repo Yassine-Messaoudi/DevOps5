@@ -14,7 +14,7 @@ pipeline {
   stage('Check Target Directory') {
     steps {
         script {
-            sh 'ls -la target/'
+            sh 'ls -la target/ -DskipTests'
         }
     }
 }

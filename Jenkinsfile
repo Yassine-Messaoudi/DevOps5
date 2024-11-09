@@ -29,12 +29,7 @@ pipeline {
             }
         }
 
-        stage('Start Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-
+     
       
 
         stage('Start Test Database') {
@@ -119,6 +114,12 @@ pipeline {
                 sh 'docker-compose logs'
             }
         }
+           stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+
         stage('Upload to Nexus') {
             steps {
                 script {

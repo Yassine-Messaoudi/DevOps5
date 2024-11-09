@@ -149,17 +149,48 @@ pipeline {
         }
     }
 
-    post {
+  post {
         always {
-            // Nettoyage ou actions post-pipeline
             cleanWs()
             echo 'Pipeline finished.'
         }
         success {
             echo 'Le pipeline a réussi !'
+            emailext (
+                subject: "Succès : Pipeline ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
+                body: """
+                    Bonjour,
+
+                    Le pipeline ${env.JOB_NAME} a réussi.
+
+                    - Nom du job : ${env.JOB_NAME}
+                    - Numéro de build : ${env.BUILD_NUMBER}
+                    - Lien du job : ${env.BUILD_URL}
+
+                    Cordialement,
+                    L'équipe DevOps
+                """,
+                to: 'crownshoptn@gmail.com'
+            )
         }
         failure {
             echo 'Le pipeline a échoué.'
+            emailext (
+                subject: "Échec : Pipeline ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
+                body: """
+                    Bonjour,
+
+                    Le pipeline ${env.JOB_NAME} a échoué.
+
+                    - Nom du job : ${env.JOB_NAME}
+                    - Numéro de build : ${env.BUILD_NUMBER}
+                    - Lien du job : ${env.BUILD_URL}
+
+                    Cordialement,
+                    L'équipe DevOps
+                """,
+                to: 'crownshoptn@gmail.com'
+            )
         }
     }
 }

@@ -142,37 +142,82 @@ pipeline {
     }
 
     post {
-        always {
-            cleanWs()
-            echo 'Pipeline finished.'
-        }
-        success {
-            echo 'Le pipeline a réussi !'
-            emailext(
-                to: 'enryuv66@gmail.com',
-                subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
-                body: "Le build a terminé avec le statut ${currentBuild.currentResult}. Consultez les détails ici : ${env.BUILD_URL}",
-                attachLog: true
-            )
-        }
-        failure {
-            echo 'Le pipeline a échoué.'
-            emailext (
-                subject: "Échec : Pipeline ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
-                body: """
-                    Bonjour,
-
-                    Le pipeline ${env.JOB_NAME} a échoué.
-
-                    - Nom du job : ${env.JOB_NAME}
-                    - Numéro de build : ${env.BUILD_NUMBER}
-                    - Lien du job : ${env.BUILD_URL}
-
-                    Cordialement,
-                    L'équipe DevOps
-                """,
-                to: 'enryuv66@gmail.com'
-            )
-        }
+    always {
+        cleanWs()
+        echo 'Pipeline finished.'
     }
+    success {
+        echo 'Le pipeline a réussi !'
+        emailext(
+            to: 'enryuv66@gmail.com',
+            subject: "✅ Succès : Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+            body: """
+                <html>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                    <h2 style="color: #28a745;">✔️ Le pipeline a réussi !</h2>
+                    <p>Le job <strong>${env.JOB_NAME}</strong> s'est terminé avec succès.</p>
+                    <table style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Job Name</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${env.JOB_NAME}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Build Number</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${env.BUILD_NUMBER}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Build Status</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: #28a745;">Succès</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Voir les détails</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><a href="${env.BUILD_URL}" style="color: #007bff;">Consultez les détails du build</a></td>
+                        </tr>
+                    </table>
+                    <p>Cordialement,<br>L'équipe DevOps</p>
+                </body>
+                </html>
+            """,
+            mimeType: 'text/html',
+            attachLog: true
+        )
+    }
+    failure {
+        echo 'Le pipeline a échoué.'
+        emailext(
+            to: 'enryuv66@gmail.com',
+            subject: "❌ Échec : Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+            body: """
+                <html>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                    <h2 style="color: #dc3545;">❌ Le pipeline a échoué</h2>
+                    <p>Le job <strong>${env.JOB_NAME}</strong> n'a pas réussi à se terminer correctement.</p>
+                    <table style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Job Name</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${env.JOB_NAME}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Build Number</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${env.BUILD_NUMBER}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Build Status</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px; color: #dc3545;">Échec</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Voir les détails</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 8px;"><a href="${env.BUILD_URL}" style="color: #007bff;">Consultez les détails du build</a></td>
+                        </tr>
+                    </table>
+                    <p>Cordialement,<br>L'équipe DevOps</p>
+                </body>
+                </html>
+            """,
+            mimeType: 'text/html',
+            attachLog: true
+        )
+    }
+}
+
 }

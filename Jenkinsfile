@@ -6,8 +6,8 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning the repository...'
-                    git --version
-                    git credentialsId: 'githubjenkins', branch: 'anes-branch', url: 'https://github.com/Yassynmss/DevOps5.git'
+                    sh 'git --version'
+                    git credentialsId: 'githubjenkistkn', branch: 'anes-branch', url: 'https://github.com/Yassynmss/DevOps5.git'
 
                 }
             }

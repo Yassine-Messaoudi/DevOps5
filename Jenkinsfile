@@ -35,13 +35,7 @@ pipeline {
             }
         }
 
-        stage('Check Docker Compose') {
-            steps {
-                sh 'docker ps'
-                // Affichez les logs pour plus de détails sur les conteneurs
-                sh 'docker-compose logs'
-            }
-        }
+      
 
         stage('Start Test Database') {
             steps {
@@ -118,7 +112,13 @@ pipeline {
                 sh 'docker run -d -p 8083:8080 --name devops-yassine devopsyassine:latest'
             }
         }
-
+  stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+                // Affichez les logs pour plus de détails sur les conteneurs
+                sh 'docker-compose logs'
+            }
+        }
         stage('Upload to Nexus') {
             steps {
                 script {

@@ -11,8 +11,6 @@ pipeline {
             }
         }
 
-
-
         stage('Build Docker Image Backend') {
             steps {
                 sh 'docker build -t yassine121/5se2 .'
@@ -29,28 +27,27 @@ pipeline {
             }
         }
 
-       stage('Check Docker Compose') {
+        stage('Check Docker Compose') {
             steps {
                 sh 'docker ps'
-                // Affichez les logs pour plus de détails sur les conteneurs
                 sh 'docker-compose logs'
             }
         }
-           stage('Start Docker Compose') {
+
+        stage('Start Docker Compose') {
             steps {
                 sh 'docker-compose up -d'
             }
         }
-      
 
         stage('Start Test Database') {
             steps {
                 sh 'docker-compose -f docker-compose.yml up -d mysql'
             }
         }
+
         stage('Build') {
             steps {
-                // Construire le projet avec Maven
                 sh 'mvn clean package'
             }
         }
@@ -67,7 +64,6 @@ pipeline {
         stage('JaCoCo Coverage Report') {
             steps {
                 script {
-                    // Exécuter la phase verify pour générer le rapport JaCoCo
                     sh 'mvn verify'
                 }
             }
@@ -76,7 +72,6 @@ pipeline {
         stage('Publish JaCoCo Report') {
             steps {
                 script {
-                    // Publier le rapport de couverture JaCoCo si vous utilisez Jenkins avec le plugin JaCoCo
                     publishHTML(target: [
                         reportName: 'JaCoCo Coverage Report',
                         reportDir: 'target/site/jacoco',
@@ -85,6 +80,7 @@ pipeline {
                 }
             }
         }
+
         stage('SonarQube Analysis') {
             steps {
                 script {
@@ -100,38 +96,33 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Exécuter les tests
-                sh 'mvn test' // Enlevez -DskipTests si vous souhaitez exécuter les tests
+                sh 'mvn test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                // Construire l'image Docker
                 sh 'docker build -t devopsyassine:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                // Exécuter le conteneur Docker
                 sh 'docker run -d -p 8083:8080 --name devops-yassine devopsyassine:latest'
             }
         }
-
 
         stage('Upload to Nexus') {
             steps {
                 script {
                     def nexusUrl = "http://localhost:8081/repository/"
                     def artifactId = "firstProject"
-                    def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
+                    def version = "0.0.1"
                     def packaging = "jar"
                     def nexusUser = "admin"
                     def nexusPassword = "Aa2255860955@"
                     def repository = "maven-releases"
 
-                    // Publier l'artefact dans Nexus avec authentification
                     sh """
                     mvn deploy:deploy-file \
                         -DgroupId=tn.esprit \
@@ -150,21 +141,20 @@ pipeline {
         }
     }
 
-  post {
+    post {
         always {
             cleanWs()
             echo 'Pipeline finished.'
         }
         success {
             echo 'Le pipeline a réussi !'
-       emailext(
-    to: 'crownshoptn@gmail.com',
-    subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
-    body: "Le build a terminé avec le statut ${currentBuild.currentResult}. Consultez les détails ici : ${env.BUILD_URL}",
-    attachLog: true,
-    debug: true
-)
-
+            emailext(
+                to: 'crownshoptn@gmail.com',
+                subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
+                body: "Le build a terminé avec le statut ${currentBuild.currentResult}. Consultez les détails ici : ${env.BUILD_URL}",
+                attachLog: true,
+                debug: true
+            )
         }
         failure {
             echo 'Le pipeline a échoué.'

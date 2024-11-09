@@ -7,8 +7,7 @@ pipeline {
                 script {
                     echo 'Cloning the repository...'
                     sh 'git --version'
-                    git credentialsId: 'githubjenkistkn', branch: 'anes-branch', url: 'https://github.com/Yassynmss/DevOps5.git'
-
+                    sh 'git clone -b anes-branch https://anes05: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@github.com/Yassynmss/DevOps5.git'
                 }
             }
         }

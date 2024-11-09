@@ -11,6 +11,43 @@ pipeline {
             }
         }
 
+
+
+        stage('Build Docker Image Backend') {
+            steps {
+                sh 'docker build -t yassine121/5se2 .'
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    echo 'Logging in to Docker Hub...'
+                }
+                sh 'docker login -u yassine121 -p Aa2255860955'
+                sh 'docker push yassine121/5se2'
+            }
+        }
+
+        stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+
+        stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+                // Affichez les logs pour plus de détails sur les conteneurs
+                sh 'docker-compose logs'
+            }
+        }
+
+        stage('Start Test Database') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d mysql'
+            }
+        }
         stage('Build') {
             steps {
                 // Construire le projet avec Maven
@@ -48,43 +85,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Build Docker Image Backend') {
-            steps {
-                sh 'docker build -t yassine121/5se2 .'
-            }
-        }
-
-        stage('Push Docker Image to Docker Hub') {
-            steps {
-                script {
-                    echo 'Logging in to Docker Hub...'
-                }
-                sh 'docker login -u yassine121 -p Aa2255860955'
-                sh 'docker push yassine121/5se2'
-            }
-        }
-
-        stage('Start Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-
-        stage('Check Docker Compose') {
-            steps {
-                sh 'docker ps'
-                // Affichez les logs pour plus de détails sur les conteneurs
-                sh 'docker-compose logs'
-            }
-        }
-
-        stage('Start Test Database') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d mysql'
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 script {

@@ -149,7 +149,7 @@ pipeline {
         success {
             echo 'Le pipeline a réussi !'
             emailext(
-                to: 'crownshoptn@gmail.com',
+                to: 'enryuv66@gmail.com',
                 subject: "Build ${currentBuild.currentResult}: ${env.JOB_NAME}",
                 body: "Le build a terminé avec le statut ${currentBuild.currentResult}. Consultez les détails ici : ${env.BUILD_URL}",
                 attachLog: true
@@ -171,7 +171,7 @@ pipeline {
                     Cordialement,
                     L'équipe DevOps
                 """,
-                to: 'crownshoptn@gmail.com'
+                to: 'enryuv66@gmail.com'
             )
         }
     }

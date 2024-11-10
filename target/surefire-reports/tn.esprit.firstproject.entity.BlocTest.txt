@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tn.esprit.firstproject.entity.BlocTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.087 s - in tn.esprit.firstproject.entity.BlocTest

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlocServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">firstProject</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.firstproject.serviceIMP</a> &gt; <span class="el_source">BlocServiceImpl.java</span></div><h1>BlocServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.firstproject.serviceIMP;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import tn.esprit.firstproject.entity.Bloc;
+import tn.esprit.firstproject.entity.Chambre;
+import tn.esprit.firstproject.repositories.BlocRepository;
+import tn.esprit.firstproject.repositories.ChambreRepository;
+import tn.esprit.firstproject.serviceInterface.BlocInterface;
+
+import java.util.List;
+@Service
+<span class="nc" id="L13">@AllArgsConstructor</span>
+public class BlocServiceImpl implements BlocInterface {
+    BlocRepository blocRepository;
+    ChambreRepository chambreRepository;
+    @Override
+    public List&lt;Bloc&gt; retrieveBlocs() {
+<span class="nc" id="L19">        return blocRepository.findAll();</span>
+    }
+
+    @Override
+    public Bloc updateBloc(Bloc bloc) {
+<span class="nc" id="L24">        return blocRepository.save(bloc);</span>
+    }
+
+    @Override
+    public Bloc addBloc(Bloc bloc) {
+<span class="nc" id="L29">        return blocRepository.save(bloc);</span>
+    }
+
+    @Override
+    public Bloc retrieveBloc(Integer idBloc) {
+<span class="nc" id="L34">        return blocRepository.findById(idBloc).orElse(null);</span>
+    }
+
+    @Override
+    public void removeBloc(Integer idBloc) {
+<span class="nc" id="L39">    blocRepository.deleteById(idBloc);</span>
+<span class="nc" id="L40">    }</span>
+
+
+
+    @Override
+    public Bloc affecterChambresABloc(List&lt;Long&gt; numChambre, Integer idBloc) {
+<span class="nc" id="L46">        List&lt; Chambre&gt; chambres=chambreRepository.findAllByNumeroChambreIn(numChambre);</span>
+<span class="nc" id="L47">        Bloc b= blocRepository.findById(idBloc).orElse(null);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (Chambre chambre:chambres){</span>
+<span class="nc" id="L49">            chambre.setBloc(b);</span>
+<span class="nc" id="L50">            chambreRepository.save(chambre);</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">        return b;</span>
+     }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

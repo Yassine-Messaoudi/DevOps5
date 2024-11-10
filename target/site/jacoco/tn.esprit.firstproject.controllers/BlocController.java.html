@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlocController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">firstProject</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.firstproject.controllers</a> &gt; <span class="el_source">BlocController.java</span></div><h1>BlocController.java</h1><pre class="source lang-java linenums">package tn.esprit.firstproject.controllers;
+
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.firstproject.entity.Bloc;
+import tn.esprit.firstproject.repositories.BlocRepository;
+import tn.esprit.firstproject.serviceInterface.BlocInterface;
+
+import java.util.List;
+
+<span class="nc" id="L11">@AllArgsConstructor</span>
+@RestController
+@RequestMapping(&quot;bloc&quot;)
+public class BlocController {
+    BlocInterface blocInterface;
+    @GetMapping(&quot;/getAllBloc&quot;)
+    public List&lt;Bloc&gt; retrieveBlocs() {
+<span class="nc" id="L18">        return blocInterface.retrieveBlocs();</span>
+    }
+    @PutMapping(&quot;/updateBloc&quot;)
+    public Bloc updateBloc(@RequestBody Bloc bloc) {
+<span class="nc" id="L22">        return blocInterface.updateBloc(bloc);</span>
+    }
+    @PostMapping(&quot;/addBloc&quot;)
+    public Bloc addBloc(@RequestBody Bloc bloc) {
+<span class="nc" id="L26">        return blocInterface.addBloc(bloc);</span>
+    }
+    @GetMapping(&quot;/retrieveBloc/{id}&quot;)
+    public Bloc retrieveBloc(@PathVariable(&quot;id&quot;) Integer idBloc) {
+<span class="nc" id="L30">        return blocInterface.retrieveBloc(idBloc);</span>
+    }
+
+    @DeleteMapping(&quot;/removeBloc/{id}&quot;)
+    public void removeBloc(@PathVariable(&quot;id&quot;) Integer idBloc) {
+<span class="nc" id="L35">        blocInterface.removeBloc(idBloc);</span>
+<span class="nc" id="L36">    }</span>
+    @PutMapping(&quot;/affecterChambresABloc/{idBloc}&quot;)
+    public Bloc affecterChambresABloc(@RequestBody List&lt;Long&gt; numChambre,
+                                      @PathVariable(&quot;idBloc&quot;) Integer idBloc){
+<span class="nc" id="L40">        return blocInterface.affecterChambresABloc(numChambre,idBloc);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

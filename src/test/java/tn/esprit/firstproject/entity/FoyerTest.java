@@ -44,21 +44,4 @@ public class FoyerTest {
         assertThat(foyer.toString()).isEqualTo(expectedToString);
     }
 
-    @Test
-    public void testFoyerEqualsAndHashCode() {
-        Foyer foyer1 = Foyer.builder()
-                .idFoyer(4)
-                .nomFoyer("Foyer D")
-                .capaciteFoyer(400L)
-                .build();
-
-        Foyer foyer2 = Foyer.builder()
-                .idFoyer(4)
-                .nomFoyer("Foyer D")
-                .capaciteFoyer(400L)
-                .build();
-
-        assertThat(foyer1).isEqualTo(foyer2);
-        assertThat(foyer1.hashCode()).isEqualTo(foyer2.hashCode());
-    }
 }

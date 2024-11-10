@@ -16,6 +16,7 @@ pipeline {
         stage('Check Out Current Directory') {
             steps {
                 script {
+                    echo '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
                     // Afficher le répertoire courant
                     sh 'pwd'
                     // Lister les fichiers dans le répertoire
@@ -32,6 +33,9 @@ pipeline {
 
         stage('Build') {
             steps {
+
+                echo '++++++++++++++++++++++++++++++++++'
+
                 // Construire le projet avec Maven
                 sh 'mvn clean package'
             }
@@ -41,6 +45,7 @@ pipeline {
             steps {
                 script {
                     // Exécuter l'analyse SonarQube
+                    echo '------------------------------------'
                     sh '''
                     mvn clean verify sonar:sonar \
                       -Dsonar.projectKey=devopss \
@@ -55,6 +60,7 @@ pipeline {
                stage('Upload to Nexus') {
             steps {
                 script {
+                    echo '1111111111111111111111111111111111111111111111111'
                     def nexusUrl = "http://localhost:8081/repository/deploymentRepo/"
                     def artifactId = "firstProject"
                     def version = "0.0.1-SNAPSHOT"
@@ -79,6 +85,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
+                echo '222222222222222222222222222'
                 sh 'docker build -t devopsprojectspring:latest .'
             }
         }

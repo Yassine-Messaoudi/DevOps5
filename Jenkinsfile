@@ -47,7 +47,7 @@ pipeline {
                     // Exécuter l'analyse SonarQube
                     echo '------------------------------------'
                     sh '''
-                    mvn clean verify sonar:sonar \
+                    mvn sonar:sonar \
                       -Dsonar.projectKey=devopss \
                       -Dsonar.sources=src/main/java \
                       -Dsonar.java.binaries=target/classes \

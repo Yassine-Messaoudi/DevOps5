@@ -21,15 +21,43 @@ pipeline {
                     sh 'pwd'
                     // Lister les fichiers dans le répertoire
                     sh 'ls -la'
-                    sh 'docker stop $(docker ps -q)  || true'
-                    sh 'docker rm $(docker ps -a -q) || true'
-                    sh 'docker run -d --name nexus3 -p 8081:8081 sonatype/nexus3'
-                    sh 'docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql'
-                    sh 'docker run -d --name sonarqube -p 9000:9000 sonarqube:lts'
 
+                    // Check and stop/remove Nexus3 container if not running
+                    sh '''
+                    if [ ! "$(docker ps -q -f name=nexus3)" ]; then
+                        echo "Nexus3 is not running, removing if exists"
+                        docker rm -f nexus3 || true
+                    else
+                        echo "Nexus3 is running"
+                    fi
+                    docker run -d --name nexus3 -p 8081:8081 sonatype/nexus3
+                    '''
+
+                    // Check and stop/remove MySQL container if not running
+                    sh '''
+                    if [ ! "$(docker ps -q -f name=mysql)" ]; then
+                        echo "MySQL is not running, removing if exists"
+                        docker rm -f mysql || true
+                    else
+                        echo "MySQL is running"
+                    fi
+                    docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql
+                    '''
+
+                    // Check and stop/remove SonarQube container if not running
+                    sh '''
+                    if [ ! "$(docker ps -q -f name=sonarqube)" ]; then
+                        echo "SonarQube is not running, removing if exists"
+                        docker rm -f sonarqube || true
+                    else
+                        echo "SonarQube is running"
+                    fi
+                    docker run -d --name sonarqube -p 9000:9000 sonarqube:lts
+                    '''
                 }
             }
         }
+
 
         stage('Build') {
             steps {

@@ -12,7 +12,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project with Maven...'
-                // Build the project using Maven
                 sh 'mvn clean install -DskipTests'
             }
         }
@@ -24,7 +23,7 @@ pipeline {
                     sh '''
                     mvn sonar:sonar \
                         -Dsonar.projectKey=achrefsonar \
-                        -Dsonar.host.url=http://192.168.45.196:9000 \
+                        -Dsonar.host.url=http://172.20.10.8:9000 \
                         -Dsonar.token=sqp_42304d619cc5e296add17bd1858be9fa4d66bc53
                     '''
                 }
@@ -34,39 +33,36 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                // Execute unit tests
                 sh 'mvn test -Dspring.profiles.active=test'
             }
         }
 
-  stage('Docker Build') {
-    steps {
-        echo 'Building the Docker image...'
-        sh 'docker build -t devopsprojectspring:latest .'
-    }
-}
+        stage('Docker Build') {
+            steps {
+                echo 'Building the Docker image...'
+                sh 'docker build -t devopsprojectspring:latest .'
+            }
+        }
 
-stage('Docker Run') {
-    steps {
-        echo 'Running the Docker container...'
-        sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
-    }
-}
-
+        stage('Docker Run') {
+            steps {
+                echo 'Running the Docker container...'
+                sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+            }
+        }
 
         stage('Upload to Nexus') {
             steps {
                 echo 'Uploading artifact to Nexus...'
                 script {
-                    def nexusUrl = "http://192.168.45.196:8081/repository/"
+                    def nexusUrl = "http://172.20.10.8:8081/repository/"
                     def artifactId = "firstProject"
-                    def version = "0.0.1"  // Ensure this version is without -SNAPSHOT
+                    def version = "0.0.1"
                     def packaging = "jar"
                     def nexusUser = "admin"
                     def nexusPassword = "admin"
-                    def repository = "maven-releases"  // Use this repository for release versions
+                    def repository = "maven-releases"
 
-                    // Deploy the artifact to Nexus
                     sh """
                     mvn deploy:deploy-file \
                         -DgroupId=tn.esprit \

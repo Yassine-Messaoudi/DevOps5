@@ -86,9 +86,9 @@ pipeline {
                 script {
                     sh '''
                     mvn sonar:sonar \
-                        -Dsonar.projectKey=devops \
-                        -Dsonar.host.url=http://172.20.0.1:9000 \
-                        -Dsonar.login=sqp_29adcb97b3cc446847832867eed3eb3237dd58cc
+  -Dsonar.projectKey=YASSINE \
+  -Dsonar.host.url=http://127.0.0.1:9000 \
+  -Dsonar.token=sqp_2512c4a83dadc4fc5e635a026cf2234f673801ee
                     '''
                 }
             }

@@ -16,7 +16,6 @@ pipeline {
             }
         }
 
-        
         stage('Build Docker Image Backend') {
             steps {
                 sh 'docker build -t achref452/5se2backend .'
@@ -45,6 +44,7 @@ pipeline {
                 sh 'docker compose up -d'
             }
         }
+
         stage('Start Test Database') {
             steps {
                 sh 'docker compose -f docker-compose.yml up -d mysql'
@@ -80,13 +80,13 @@ pipeline {
         }
 
         stage('Docker Run') {
-    steps {
-        echo 'Stopping and removing any existing container...'
-        sh 'docker rm -f devops-project-spring || true'
-        echo 'Running the Docker container...'
-        sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
-    }
-}
+            steps {
+                echo 'Stopping and removing any existing container...'
+                sh 'docker rm -f devops-project-spring || true'
+                echo 'Running the Docker container...'
+                sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+            }
+        }
 
         stage('Upload to Nexus') {
             steps {
@@ -121,12 +121,27 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished.'
+            cleanWs() // Clean workspace
         }
         success {
             echo 'Pipeline was successful!'
+            emailext(
+                to: 'achrefhajsalem11@gmail.com',
+                subject: "SUCCESS: Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                body: """<p>SUCCESS: Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</p>
+                         <p>Check the details <a href="${env.BUILD_URL}">here</a></p>""",
+                mimeType: 'text/html'
+            )
         }
         failure {
             echo 'Pipeline failed.'
+            emailext(
+                to: 'achrefhajsalem11@gmail.com',
+                subject: "FAILURE: Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                body: """<p>FAILURE: Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</p>
+                         <p>Check the details <a href="${env.BUILD_URL}">here</a></p>""",
+                mimeType: 'text/html'
+            )
         }
     }
 }

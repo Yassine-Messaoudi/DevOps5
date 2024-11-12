@@ -45,11 +45,13 @@ pipeline {
         }
 
         stage('Docker Run') {
-            steps {
-                echo 'Running the Docker container...'
-                sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
-            }
-        }
+    steps {
+        echo 'Stopping and removing any existing container...'
+        sh 'docker rm -f devops-project-spring || true'
+        echo 'Running the Docker container...'
+        sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+    }
+}
 
         stage('Upload to Nexus') {
             steps {

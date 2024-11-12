@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build:
-      context: .
+      context: src/main/java
       dockerfile: Dockerfile
     ports:
       - "8082:8080"  # Mappe le port 8080 de l'application au port 8082 de l'hôte

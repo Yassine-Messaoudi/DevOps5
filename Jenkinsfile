@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-  /*  stages {
+    stages {
         stage('Clone Repository') {
             steps {
                 echo 'Cloning the repository...'
@@ -21,7 +21,7 @@ pipeline {
                 sh 'docker build -t achref452/5se2backend .'
             }
         }
-
+/*
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {

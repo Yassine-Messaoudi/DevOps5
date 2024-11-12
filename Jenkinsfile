@@ -21,7 +21,7 @@ pipeline {
                 sh 'docker build -t achref452/5se2backend .'
             }
         }
-/*
+
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
@@ -117,7 +117,7 @@ pipeline {
             }
         }
     }
-*/
+
     post {
         always {
             echo 'Pipeline finished.'

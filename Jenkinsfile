@@ -16,6 +16,41 @@ pipeline {
             }
         }
 
+        
+        stage('Build Docker Image Backend') {
+            steps {
+                sh 'docker build -t achref452/5se2backend .'
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    echo 'Logging in to Docker Hub...'
+                }
+                sh 'docker login -u achref452 -p 51775223ach'
+                sh 'docker push achref452/5se2backend'
+            }
+        }
+
+        stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+                sh 'docker-compose logs'
+            }
+        }
+
+        stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+        stage('Start Test Database') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d mysql'
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 echo 'Starting SonarQube analysis...'

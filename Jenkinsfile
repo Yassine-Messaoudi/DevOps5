@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    stages {
+  /*  stages {
         stage('Clone Repository') {
             steps {
                 echo 'Cloning the repository...'
@@ -117,7 +117,7 @@ pipeline {
             }
         }
     }
-
+*/
     post {
         always {
             echo 'Pipeline finished.'

@@ -1,45 +1,30 @@
-version: '3.8'
-
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8080"  # Mappe le port 8080 de l'application au port 8082 de l'hôte
-    networks:
-      - app-network
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/4se21
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD= ""
-
   mysql:
     image: mysql:latest
-    ports:
-      - "3306:3306"  # Mappe le port 3306 du conteneur MySQL
-    networks:
-      - app-network
+    container_name: mysql
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: 4se21
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_USER: ramzi
+      MYSQL_PASSWORD: 123
+      MYSQL_DATABASE: devops
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
-  test-mysql:
-    image: mysql:latest
-    networks:
-      - app-network
+  spring-boot:
+    depends_on:
+      - mysql
+    image: ramzizarg/ramzizargelayoun-devops_project:latest
+    container_name: spring-boot
+    restart : always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: 4se21  # Nom de la base de données pour les tests
-    volumes:
-      - test_mysql_data:/var/lib/mysql
-
-networks:
-  app-network:
-    driver: bridge
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123
+    ports:
+      - "8082:8082"
 
 volumes:
   mysql_data:
-  test_mysql_data:

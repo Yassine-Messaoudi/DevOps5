@@ -115,7 +115,7 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 script {
-                    def nexusUrl = "http://localhost:8081/repository/"
+                    def nexusUrl = "http://127.0.0.1:8081/repository/"
                     def artifactId = "firstProject"
                     def version = "0.0.1"
                     def packaging = "jar"

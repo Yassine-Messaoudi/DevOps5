@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build:
-      context: src/main/java
+      context: ./src
       dockerfile: Dockerfile
     ports:
       - "8082:8082"

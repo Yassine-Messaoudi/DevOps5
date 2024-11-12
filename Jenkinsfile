@@ -40,18 +40,7 @@ pipeline {
         
        
         
-        stage('Start Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-        
-        stage('Check Docker Compose') {
-            steps {
-                sh 'docker ps'
-            }
-        }
-        
+    
         stage('Start Test Database') {
             steps {
                 sh 'docker-compose -f src/main/resources/docker-compose.yml up -d test-mysql'
@@ -91,7 +80,18 @@ pipeline {
                 sh 'sudo docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
             }
         }
-
+    stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+        
+        stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+            }
+        }
+        
         stage('Upload to Nexus') {
             steps {
                 script {

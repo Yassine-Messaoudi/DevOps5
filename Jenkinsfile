@@ -25,6 +25,40 @@ pipeline {
             }
         }
 
+
+               stage('Build Docker Image Backend') {
+            steps {
+                sh 'docker build -t aymenaskri/5se2 .'
+            }
+        }
+        
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                sh 'docker login -u aymenaskri -p Ask07232903@@'
+                sh 'docker push aymenaskri/5se2'
+            }
+        }
+        
+       
+       
+       stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+        
+        stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+            }
+        } 
+        
+    
+        stage('Start Test Database') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d test-mysql'
+            }
+        }
   
        
        

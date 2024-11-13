@@ -21,7 +21,7 @@ pipeline {
          stage('Build') {
             steps {
                 // Construire le projet avec Maven
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean package'
             }
         }
 
@@ -53,10 +53,10 @@ pipeline {
             }
         } 
         
-    
+
         stage('Start Test Database') {
             steps {
-                sh 'docker-compose -f docker-compose.yml up -d test-mysql'
+                sh 'docker-compose -f docker-compose.yml up -d mysql'
             }
         }
   

@@ -13,53 +13,9 @@ pipeline {
             }
         }
 
-        stage('Check Out Current Directory') {
-            steps {
-                script {
-                    echo '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
-                    // Afficher le répertoire courant
-                    sh 'pwd'
-                    // Lister les fichiers dans le répertoire
-                    sh 'ls -la'
+      
 
-                    // Check and stop/remove Nexus3 container if not running
-                    sh '''
-                    if [ ! "$(docker ps -q -f name=nexus3)" ]; then
-                        echo "Nexus3 is not running, removing if exists"
-                        docker rm -f nexus3 || true
-                    else
-                        echo "Nexus3 is running"
-                    fi
-                    docker run -d --name nexus3 -p 8081:8081 sonatype/nexus3
-                    '''
-
-                    // Check and stop/remove MySQL container if not running
-                    sh '''
-                    if [ ! "$(docker ps -q -f name=mysql)" ]; then
-                        echo "MySQL is not running, removing if exists"
-                        docker rm -f mysql || true
-                    else
-                        echo "MySQL is running"
-                    fi
-                    docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql
-                    '''
-
-                    // Check and stop/remove SonarQube container if not running
-                    sh '''
-                    if [ ! "$(docker ps -q -f name=sonarqube)" ]; then
-                        echo "SonarQube is not running, removing if exists"
-                        docker rm -f sonarqube || true
-                    else
-                        echo "SonarQube is running"
-                    fi
-                    docker run -d --name sonarqube -p 9000:9000 sonarqube:lts
-                    '''
-                }
-            }
-        }
-
-
-        stage('Build') {
+        stage('Mvn Build') {
             steps {
 
                 echo '++++++++++++++++++++++++++++++++++'
@@ -111,7 +67,7 @@ pipeline {
 
      stage('Build Docker Image Backend') {
             steps {
-                sh 'docker build -t achref452/5se2backend .'
+                sh 'docker build -t anes05/5se2backend .'
             }
         }
 
@@ -120,8 +76,8 @@ pipeline {
                 script {
                     echo 'Logging in to Docker Hub...'
                 }
-                sh 'docker login -u achref452 -p 51775223ach'
-                sh 'docker push achref452/5se2backend'
+                sh 'docker login -u anes05 -p azerty123'
+                sh 'docker push anes05/5se2backend'
             }
         }
 

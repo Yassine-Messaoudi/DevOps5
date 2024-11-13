@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                script {
+                script { 
                     echo 'Cloning the repository...'
                 }
                 git credentialsId: 'aymen', branch: 'aymendevOps', url: 'https://github.com/Yassynmss/DevOps5.git'

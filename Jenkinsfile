@@ -46,7 +46,8 @@ pipeline {
                     def artifactId = "firstProject"
                     def version = "0.0.1-SNAPSHOT"
                     def packaging = "jar"
-
+                    def nexusUser = "admin"
+                    def nexusPassword = "nexus"
                     sh """
                     mvn deploy:deploy-file \
                         -DgroupId=tn.esprit \

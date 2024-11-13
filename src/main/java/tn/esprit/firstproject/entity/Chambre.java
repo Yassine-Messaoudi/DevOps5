@@ -28,7 +28,7 @@ public class Chambre implements Serializable {
     private Set<Reservation> reservations = new HashSet<>();
 
     @ToString.Exclude
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     Bloc bloc;
 }

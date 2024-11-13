@@ -27,6 +27,42 @@ pipeline {
             }
         }
 
+ stage('Build Docker Image Backend') {
+            steps {
+                sh 'docker build -t maryem1708/5se2 .'
+            }
+        }
+        
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                sh 'docker login -u maryem1708 -p Maryem27*'
+                sh 'docker push maryem1708/5se2'
+            }
+        }
+        
+       
+       
+       stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+        
+        stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+            }
+        } 
+        
+    
+        stage('Start Test Database') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d test-mysql'
+            }
+        }
+
+        
+
         stage('SonarQube Analysis') {
             steps {
                 script {

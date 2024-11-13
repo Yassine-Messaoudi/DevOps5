@@ -25,18 +25,15 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+          stage('SonarQube Analysis') {
             steps {
+                echo 'Starting SonarQube analysis...'
                 script {
-                    // Exécuter l'analyse SonarQube
-                    echo '------------------------------------'
                     sh '''
                     mvn sonar:sonar \
-                      -Dsonar.projectKey=devopss \
-                      -Dsonar.sources=src/main/java \
-                      -Dsonar.java.binaries=target/classes \
-                      -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=squ_323502b4f0df07a1edcd87634155d491b9cf5288
+                    -Dsonar.projectKey=DevopsProject \
+                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.login=sqp_d6a26e501490aef4262c01d5dc5801be01acba71
                     '''
                 }
             }

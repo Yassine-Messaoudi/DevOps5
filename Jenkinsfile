@@ -55,8 +55,10 @@ pipeline {
                         -Dpackaging=${packaging} \
                         -Dfile=target/${artifactId}-${version}.${packaging} \
                         -DrepositoryId=deploymentRepo \
-                        -Durl=${nexusUrl} \
-                        -DpomFile=pom.xml
+                        -Durl=${nexusUrl}${repository}/ \
+                        -DpomFile=pom.xml \
+                        -Dusername=${nexusUser} \
+                        -Dpassword=${nexusPassword}
                     """
                 }
             }

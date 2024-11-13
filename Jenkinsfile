@@ -10,6 +10,48 @@ pipeline {
                 git credentialsId: 'maryemderbali', branch: 'Maryem', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
+         stage('Build Docker Image Backend') {
+            steps {
+                sh 'docker build -t maryem1708/5se2 .'
+            }
+        }
+        
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    echo 'Logging in to Docker Hub...'
+                }
+                sh 'docker login -u maryem1708 -p Maryem27*'
+                sh 'docker push maryem1708/5se2'
+            }
+        }
+        
+       
+        
+        stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+                sh 'docker-compose logs'
+            }
+        } 
+     stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }   
+    
+         stage('Start Test Database') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d mysql'
+            }
+        }
+
+  stage('Build') {
+            steps {
+                // Construire le projet avec Maven
+                sh 'mvn clean package'
+            }
+        }
 
   stage('Check Target Directory') {
     steps {
@@ -20,46 +62,7 @@ pipeline {
 }
 
 
-        stage('Build') {
-            steps {
-                // Construire le projet avec Maven
-                sh 'mvn clean package'
-            }
-        }
-
- stage('Build Docker Image Backend') {
-            steps {
-                sh 'docker build -t maryem1708/5se2 .'
-            }
-        }
-        
-        stage('Push Docker Image to Docker Hub') {
-            steps {
-                sh 'docker login -u maryem1708 -p Maryem27*'
-                sh 'docker push maryem1708/5se2'
-            }
-        }
-        
-       
-       
-       stage('Start Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-        
-        stage('Check Docker Compose') {
-            steps {
-                sh 'docker ps'
-            }
-        } 
-        
-    
-        stage('Start Test Database') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d test-mysql'
-            }
-        }
+      
 
         
 

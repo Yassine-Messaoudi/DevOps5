@@ -11,28 +11,14 @@ pipeline {
             }
         }
 
-        stage('Check Target Directory') {
-            steps {
-                script {
-                    sh 'ls -la target/'
-                }
-            }
-        }
-         stage('Build') {
-            steps {
-                // Construire le projet avec Maven
-                sh 'mvn clean package'
-            }
-        }
-
-
+        
                stage('Build Docker Image Backend') {
             steps {
                 sh 'docker build -t aymenaskri/5se2 .'
             }
         }
-        
-        stage('Push Docker Image to Docker Hub') {
+
+         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
                     echo 'Logging in to Docker Hub...'
@@ -41,35 +27,46 @@ pipeline {
                 sh 'docker push aymenaskri/5se2'
             }
         }
-        
-       
-       
-       stage('Start Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-        
-        stage('Check Docker Compose') {
+
+
+             stage('Check Docker Compose') {
             steps {
                 sh 'docker ps'
                 sh 'docker-compose logs'
             }
         } 
-        
 
-        stage('Start Test Database') {
+
+           stage('Start Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+
+
+           stage('Start Test Database') {
             steps {
                 sh 'docker-compose -f docker-compose.yml up -d mysql'
             }
         }
   
-       
-       
+            stage('Build') {
+            steps {
+                // Construire le projet avec Maven
+                sh 'mvn clean package'
+            }
+        }
 
         
+        
+        stage('Check Target Directory') {
+            steps {
+                script {
+                    sh 'ls -la target/'
+                }
+            }
+        }
     
-
         stage('SonarQube Analysis') {
             steps {
                 script {

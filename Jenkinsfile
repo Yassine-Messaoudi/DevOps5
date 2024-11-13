@@ -7,7 +7,7 @@ pipeline {
                 script {
                     echo 'Cloning the repository...'
                 }
-                git credentialsId: 'hola', branch: 'YassineDevOpss', url: 'https://github.com/Yassynmss/DevOps5.git'
+                git credentialsId: 'aymen', branch: 'aymendevOps', url: 'https://github.com/Yassynmss/DevOps5.git'
             }
         }
 
@@ -25,48 +25,21 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image Backend') {
-            steps {
-                sh 'docker build -t yassine121/5se2 .'
-            }
-        }
-        
-        stage('Push Docker Image to Docker Hub') {
-            steps {
-                sh 'docker login -u yassine121 -p Aa2255860955'
-                sh 'docker push yassine121/5se2'
-            }
-        }
-        
+  
        
        
-       stage('Start Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-        
-        stage('Check Docker Compose') {
-            steps {
-                sh 'docker ps'
-            }
-        } 
+
         
     
-        stage('Start Test Database') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d test-mysql'
-            }
-        }
 
         stage('SonarQube Analysis') {
             steps {
                 script {
                     sh '''
                     mvn sonar:sonar \
-                        -Dsonar.projectKey=YASSINE \
-                        -Dsonar.host.url=http://127.0.0.1:9000 \
-                        -Dsonar.token=sqp_3ddcd7e72065275e1e19d4633e1bed330396bfc9
+                      -Dsonar.projectKey=askri \
+                      -Dsonar.host.url=http://172.17.0.1:9000 \
+                      -Dsonar.token=sqp_33c80cf5e8c6121cd06f58f57f94b3910b4e1fe8
                     '''
                 }
             }
@@ -102,7 +75,7 @@ pipeline {
                     def version = "0.0.1"  // Assurez-vous que cette version est sans -SNAPSHOT
                     def packaging = "jar"
                     def nexusUser = "admin"
-                    def nexusPassword = "Aa2255860955@"
+                    def nexusPassword = "Ask07232903@@"
                     def repository = "maven-releases"  // Utilisez toujours ce dépôt pour les versions de release
 
                     // Publier l'artefact dans Nexus avec authentification

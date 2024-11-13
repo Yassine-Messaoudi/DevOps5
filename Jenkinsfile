@@ -38,32 +38,7 @@ pipeline {
                 }
             }
         }
-               stage('Upload to Nexus') {
-            steps {
-                script {
-                    echo '1111111111111111111111111111111111111111111111111'
-                    def nexusUrl = "http://localhost:8081/repository/deploymentRepo/"
-                    def artifactId = "firstProject"
-                    def version = "0.0.1-SNAPSHOT"
-                    def packaging = "jar"
-                    def nexusUser = "admin"
-                    def nexusPassword = "nexus"
-                    sh """
-                    mvn deploy:deploy-file \
-                        -DgroupId=tn.esprit \
-                        -DartifactId=${artifactId} \
-                        -Dversion=${version} \
-                        -Dpackaging=${packaging} \
-                        -Dfile=target/${artifactId}-${version}.${packaging} \
-                        -DrepositoryId=deploymentRepo \
-                        -Durl=${nexusUrl}${repository}/ \
-                        -DpomFile=pom.xml \
-                        -Dusername=${nexusUser} \
-                        -Dpassword=${nexusPassword}
-                    """
-                }
-            }
-        }
+            
 
      stage('Build Docker Image Backend') {
             steps {
@@ -114,6 +89,35 @@ pipeline {
                 sh 'docker rm -f devops-project-spring || true'
                 echo 'Running the Docker container...'
                 sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+            }
+        }
+
+           stage('Upload to Nexus') {
+            steps {
+                script {
+                    echo '1111111111111111111111111111111111111111111111111'
+                    def nexusUrl = "http://localhost:8081/repository/"
+                    def artifactId = "firstProject"
+                    def version = "0.0.1-SNAPSHOT"
+                    def packaging = "jar"
+                    def nexusUser = "admin"
+                    def nexusPassword = "nexus"
+                    def repository = "maven-releases"
+
+                    sh """
+                    mvn deploy:deploy-file \
+                        -DgroupId=tn.esprit \
+                        -DartifactId=${artifactId} \
+                        -Dversion=${version} \
+                        -Dpackaging=${packaging} \
+                        -Dfile=target/${artifactId}-${version}.${packaging} \
+                        -DrepositoryId=deploymentRepo \
+                        -Durl=${nexusUrl}${repository}/ \
+                        -DpomFile=pom.xml \
+                        -Dusername=${nexusUser} \
+                        -Dpassword=${nexusPassword}
+                    """
+                }
             }
         }
 

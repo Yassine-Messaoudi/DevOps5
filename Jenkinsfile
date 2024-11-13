@@ -109,12 +109,55 @@ pipeline {
             }
         }
 
+     stage('Build Docker Image Backend') {
+            steps {
+                sh 'docker build -t achref452/5se2backend .'
+            }
+        }
 
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    echo 'Logging in to Docker Hub...'
+                }
+                sh 'docker login -u achref452 -p 51775223ach'
+                sh 'docker push achref452/5se2backend'
+            }
+        }
+
+         stage('Check Docker Compose') {
+            steps {
+                sh 'docker ps'
+                sh 'docker compose logs'
+            }
+        }
+
+        stage('Start Docker Compose') {
+            steps {
+                sh 'docker compose up -d'
+            }
+        }
+
+        stage('Start Test Database') {
+            steps {
+                sh 'docker compose -f docker-compose.yml up -d mysql'
+            }
+        }
 
         stage('Docker Build') {
             steps {
                 echo '222222222222222222222222222'
                 sh 'docker build -t devopsprojectspring:latest .'
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                echo '****************************************************************************'
+                echo 'Stopping and removing any existing container...'
+                sh 'docker rm -f devops-project-spring || true'
+                echo 'Running the Docker container...'
+                sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
             }
         }
 

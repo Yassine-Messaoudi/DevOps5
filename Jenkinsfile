@@ -34,6 +34,9 @@ pipeline {
         
         stage('Push Docker Image to Docker Hub') {
             steps {
+                script {
+                    echo 'Logging in to Docker Hub...'
+                }
                 sh 'docker login -u aymenaskri -p Ask07232903@@'
                 sh 'docker push aymenaskri/5se2'
             }
@@ -50,6 +53,7 @@ pipeline {
         stage('Check Docker Compose') {
             steps {
                 sh 'docker ps'
+                sh 'docker-compose logs'
             }
         } 
         
@@ -82,7 +86,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Exécuter les tests
-                sh 'mvn test -DskipTests'
+                sh 'mvn test '
             }
         }
 

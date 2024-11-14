@@ -88,7 +88,7 @@ pipeline {
                 echo 'Stopping and removing any existing container...'
                 sh 'docker rm -f devops-project-spring || true'
                 echo 'Running the Docker container...'
-                sh 'docker run -d -p 8082:8080 --name devops-project-spring devopsprojectspring:latest'
+                sh 'docker run -d -p 8083:8080 --name devops-project-spring devopsprojectspring:latest'
             }
         }
 

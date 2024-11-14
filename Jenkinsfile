@@ -126,7 +126,7 @@ pipeline {
         success {
             echo 'Pipeline was successful!'
             emailext(
-                to: 'achrefhajsalem@gmail.com',
+                to: 'benelhadjsalem.achref@esprit.tn',
                 subject: "SUCCESS: Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
                 body: """<p>SUCCESS: Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</p>
                          <p>Check the details <a href="${env.BUILD_URL}">here</a></p>""",

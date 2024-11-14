@@ -84,12 +84,7 @@ pipeline {
                 // Exécuter les tests
                 sh 'mvn test'
             }
-            post {
-                always {
-                    // Publish JUnit test results to Jenkins
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+           
         }
 
         stage('Docker Build') {

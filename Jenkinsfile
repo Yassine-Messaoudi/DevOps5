@@ -94,7 +94,19 @@ pipeline {
                 }
             }
         }
+stage('Publish Code Coverage Report') {
+            steps {
+                // Publish JaCoCo HTML report in Jenkins
+                publishHTML(target: [
+                    reportDir: 'target/site/jacoco',
+                    reportFiles: 'index.html',
+                    reportName: 'JaCoCo Coverage Report'
+                ])
+            }
+        }
 
+
+        
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker

@@ -83,6 +83,8 @@ pipeline {
             steps {
                 // Exécuter les tests
                 sh 'mvn test'
+                junit 'target/surefire-reports/*.xml'
+
             }
            
         }

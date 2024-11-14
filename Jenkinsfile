@@ -58,7 +58,7 @@ pipeline {
                     sh '''
                     mvn sonar:sonar \
                         -Dsonar.projectKey=achrefsonar \
-                        -Dsonar.host.url=http://192.168.0.232:9000 \
+                        -Dsonar.host.url=http://192.168.181.196:9000 \
                         -Dsonar.token=sqp_42304d619cc5e296add17bd1858be9fa4d66bc53
                     '''
                 }
@@ -92,7 +92,7 @@ pipeline {
             steps {
                 echo 'Uploading artifact to Nexus...'
                 script {
-                    def nexusUrl = "http://192.168.0.232:8081/repository/"
+                    def nexusUrl = "http://192.168.181.196:8081/repository/"
                     def artifactId = "firstProject"
                     def version = "0.0.1"
                     def packaging = "jar"

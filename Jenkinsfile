@@ -78,7 +78,7 @@ pipeline {
                     mvn sonar:sonar \
                         -Dsonar.projectKey=Maryemdev  \
                         -Dsonar.host.url=http://localhost:9000 \
-                        -Dsonar.login=sqp_809b72d1c12e57291884c6dff3077f41af9cdf94
+                        -Dsonar.login=sqp_809b72d1c12e57291884c6dff3077f41af9cdf94 \
                         -Dsonar.jacoco.reportPaths=target/site/jacoco/jacoco.xml
                     '''
                 }

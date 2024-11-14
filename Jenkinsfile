@@ -92,18 +92,13 @@ pipeline {
             }
         }
 
-           stage('Upload to Nexus') {
+        stage('Upload to Nexus') {
             steps {
                 script {
-                    echo '1111111111111111111111111111111111111111111111111'
-                    def nexusUrl = "http://localhost:8081/repository/"
-                    def artifactId = "firstProject"
-                    def version = "0.0.1-SNAPSHOT"
-                    def packaging = "jar"
-                    def nexusUser = "admin"
-                    def nexusPassword = "nexus"
-                    def repository = "maven-releases"
-
+                    echo 'Verifying if .jar file exists...'
+                    sh 'ls -l target/'
+                    // Proceed with deploy if file exists
+                    echo 'Starting Nexus upload...'
                     sh """
                     mvn deploy:deploy-file \
                         -DgroupId=tn.esprit \

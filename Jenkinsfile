@@ -62,7 +62,7 @@ pipeline {
 }
 
 
-      tage('JaCoCo Report') {
+      stage('JaCoCo Report') {
             steps {
                 echo 'Generating JaCoCo report...'
                 sh "mvn jacoco:report"

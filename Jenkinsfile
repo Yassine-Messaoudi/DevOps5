@@ -92,7 +92,7 @@ pipeline {
             steps {
                 echo 'Uploading artifact to Nexus...'
                 script {
-                    def nexusUrl = "http://192.168.181.196:8081/repository/"
+                    def nexusUrl = "http://localhost:8081/repository/"
                     def artifactId = "firstProject"
                     def version = "0.0.1"
                     def packaging = "jar"

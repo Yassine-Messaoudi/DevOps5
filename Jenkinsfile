@@ -136,7 +136,7 @@ pipeline {
         failure {
             echo 'Pipeline failed.'
             emailext(
-                to: 'benelhadjsalem.achref@esprit.tn',
+                to: 'achrefhajsalem@gmail.com',
                 subject: "FAILURE: Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
                 body: """<p>FAILURE: Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</p>
                          <p>Check the details <a href="${env.BUILD_URL}">here</a></p>""",

@@ -18,10 +18,18 @@ pipeline {
                 }
             }
         }
-         stage('Build') {
+
+        stage('Build') {
             steps {
                 // Construire le projet avec Maven
                 sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                // Exécuter les tests JUnit et Mockito
+                sh 'mvn test'
             }
         }
 
@@ -37,8 +45,6 @@ pipeline {
                 sh 'docker push yassine121/5se2'
             }
         }
-        
-       
        
        stage('Start Docker Compose') {
             steps {
@@ -52,7 +58,6 @@ pipeline {
             }
         } 
         
-    
         stage('Start Test Database') {
             steps {
                 sh 'docker-compose -f docker-compose.yml up -d test-mysql'
@@ -72,13 +77,6 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                // Exécuter les tests
-                sh 'mvn test -DskipTests'
-            }
-        }
-
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker
@@ -93,7 +91,6 @@ pipeline {
             }
         }
    
-        
         stage('Upload to Nexus') {
             steps {
                 script {

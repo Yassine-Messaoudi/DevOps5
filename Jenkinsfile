@@ -98,7 +98,7 @@ pipeline {
                    echo '1111111111111111111111111111111111111111111111111'
                     def nexusUrl = "http://localhost:8081/repository/"
                     def artifactId = "firstProject"
-                    def version = "0.0.1-SNAPSHOT"
+                    def version = "0.0.1"
                     def packaging = "jar"
                     def nexusUser = "admin"
                     def nexusPassword = "nexus"

@@ -58,7 +58,7 @@ pipeline {
                     sh '''
                     mvn sonar:sonar \
                         -Dsonar.projectKey=achrefsonar \
-                        -Dsonar.host.url=http://192.168.0.244:9000 \
+                        -Dsonar.host.url=http://192.168.181.196:9000 \
                         -Dsonar.token=sqp_42304d619cc5e296add17bd1858be9fa4d66bc53
                     '''
                 }

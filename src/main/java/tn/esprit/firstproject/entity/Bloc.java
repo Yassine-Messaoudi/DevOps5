@@ -30,4 +30,6 @@ public class Bloc implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     Foyer foyer;
 
+    public Bloc(String a) {
+    }
 }

@@ -66,6 +66,13 @@ pipeline {
                 }
             }
         }
+
+        stage('JaCoCo Report') {
+            steps {
+                echo 'Generating JaCoCo report...'
+                sh "mvn jacoco:report"
+            }
+        }
     
         stage('SonarQube Analysis') {
             steps {
@@ -74,7 +81,8 @@ pipeline {
                     mvn sonar:sonar \
                       -Dsonar.projectKey=askri \
                       -Dsonar.host.url=http://172.17.0.1:9000 \
-                      -Dsonar.token=sqp_33c80cf5e8c6121cd06f58f57f94b3910b4e1fe8
+                      -Dsonar.token=sqp_33c80cf5e8c6121cd06f58f57f94b3910b4e1fe8\
+                      -Dsonar.jacoco.reportPaths=target/site/jacoco/jacoco.xml
                     '''
                 }
             }

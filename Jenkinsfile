@@ -87,6 +87,14 @@ pipeline {
            
         }
 
+        stage('Code Coverage - JaCoCo') {
+            steps {
+                script {
+                    sh 'mvn jacoco:prepare-agent test jacoco:report'
+                }
+            }
+        }
+
         stage('Docker Build') {
             steps {
                 // Construire l'image Docker

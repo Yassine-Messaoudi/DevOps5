@@ -12,13 +12,13 @@ pipeline {
         }
 
         
-               stage('Build Docker Image Backend') {
+               stage('Build Docker Image') {
             steps {
                 sh 'docker build -t aymenaskri/5se2 .'
             }
         }
 
-         stage('Push Docker Image to Docker Hub') {
+         stage('Push Image sur Docker Hub') {
             steps {
                 script {
                     echo 'Logging in to Docker Hub...'
@@ -37,14 +37,14 @@ pipeline {
         } 
 
 
-           stage('Start Docker Compose') {
+           stage('Docker Compose start') {
             steps {
                 sh 'docker-compose up -d'
             }
         }
 
 
-           stage('Start Test Database') {
+           stage('Test Database') {
             steps {
                 sh 'docker-compose -f docker-compose.yml up -d mysql'
             }
@@ -59,7 +59,7 @@ pipeline {
 
         
         
-        stage('Check Target Directory') {
+        stage('Check Directory Target') {
             steps {
                 script {
                     sh 'ls -la target/'
@@ -67,14 +67,14 @@ pipeline {
             }
         }
 
-        stage('JaCoCo Report') {
+        stage('JaCoCo') {
             steps {
                 echo 'Generating JaCoCo report...'
                 sh "mvn jacoco:report"
             }
         }
     
-        stage('SonarQube Analysis') {
+        stage('SonarQube') {
             steps {
                 script {
                     sh '''
@@ -88,7 +88,7 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('JUnit') {
             steps {
                 // Exécuter les tests
                 sh 'mvn test '

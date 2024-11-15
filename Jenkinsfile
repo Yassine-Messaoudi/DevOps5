@@ -55,25 +55,6 @@ pipeline {
         }
 
 
-        stage('JaCoCo Coverage Report') {
-            steps {
-                script {
-                    sh 'mvn verify'
-                }
-            }
-        }
-
-        stage('Publish JaCoCo Report') {
-            steps {
-                script {
-                    publishHTML(target: [
-                        reportName: 'JaCoCo Coverage Report',
-                        reportDir: 'target/site/jacoco',
-                        reportFiles: 'index.html'
-                    ])
-                }
-            }
-        }
 
         stage('SonarQube Analysis') {
             steps {

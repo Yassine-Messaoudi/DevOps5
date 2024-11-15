@@ -24,6 +24,12 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('start mysql from dockercompose') {
+            steps {
+                // Construire le projet avec Maven
+                sh 'docker compose -f docker-compose.yml up -d mysql'
+            }
+        }
 
           stage('SonarQube Analysis') {
             steps {

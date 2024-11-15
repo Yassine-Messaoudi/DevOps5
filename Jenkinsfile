@@ -33,13 +33,13 @@ pipeline {
         
         stage('Check Docker Compose') {
             steps {
-                 steps {
+                 
                 script {
                     echo 'Step 4: Checking the status of running Docker containers...'
                 }
                 sh 'docker ps'
-                sh 'docker-compose logs'
-            }
+                sh 'docker-compose logs'}
+            
         } 
      stage('Deploy') {
             steps {

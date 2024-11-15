@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8084:8083"
+      - "8083:8080"
     networks:
       - app-network
     environment:

@@ -128,12 +128,27 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished.'
+            cleanWs() // Clean workspace
         }
         success {
-            echo 'Le pipeline a réussi !'
+            echo 'Pipeline was successful!'
+            emailext(
+                to: 'anesmsaddak5@gmail.com',
+                subject: "SUCCESS: Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                body: """<p>SUCCESS: Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</p>
+                         <p>Check the details <a href="${env.BUILD_URL}">here</a></p>""",
+                mimeType: 'text/html'
+            )
         }
         failure {
-            echo 'Le pipeline a échoué.'
+            echo 'Pipeline failed.'
+            emailext(
+                to: 'anesmsaddak5@gmail.com',
+                subject: "FAILURE: Pipeline ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                body: """<p>FAILURE: Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</p>
+                         <p>Check the details <a href="${env.BUILD_URL}">here</a></p>""",
+                mimeType: 'text/html'
+            )
         }
     }
 }

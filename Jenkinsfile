@@ -75,11 +75,6 @@ pipeline {
             }
         }
 
-        stage('Start Test Database') {
-            steps {
-                sh 'docker compose -f docker-compose.yml up -d mysql'
-            }
-        }
 
         stage('Docker Build') {
             steps {

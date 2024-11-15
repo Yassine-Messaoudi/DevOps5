@@ -12,7 +12,28 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project with Maven...'
-                sh 'mvn clean install '
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('JaCoCo Coverage Report') {
+            steps {
+                script {
+                    echo 'Generating JaCoCo code coverage report...'
+                    sh 'mvn verify'
+                }
+            }
+        }
+
+        stage('Publish JaCoCo Report') {
+            steps {
+                script {
+                    publishHTML(target: [
+                        reportName: 'JaCoCo Coverage Report',
+                        reportDir: 'target/site/jacoco',
+                        reportFiles: 'index.html'
+                    ])
+                }
             }
         }
 
@@ -39,22 +60,19 @@ pipeline {
             }
         }
 
-     stage('Start Docker Compose') {
-    steps {
-        dir("${WORKSPACE}") {  // Ensures Docker Compose runs in the workspace directory
-            sh 'docker compose -f docker-compose.yml up -d'
+        stage('Start Docker Compose') {
+            steps {
+                dir("${WORKSPACE}") { // Ensures Docker Compose runs in the workspace directory
+                    sh 'docker compose -f docker-compose.yml up -d'
+                }
+            }
         }
-    }
-}
-
 
         stage('Start Test Database') {
             steps {
                 sh 'docker compose -f docker-compose.yml up -d mysql'
             }
         }
-
-
 
         stage('SonarQube Analysis') {
             steps {

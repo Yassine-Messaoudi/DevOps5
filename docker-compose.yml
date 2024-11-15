@@ -8,14 +8,14 @@ services:
     ports:
       - "8004:8080"
     networks:
-      - app-network
+      - projetdevops_app-network
 
   mysql:
     image: mysql:latest
     ports:
       - "3306:3306"  
     networks:
-      - app-network
+      - projetdevops_app-network
     environment:
       MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: 4se21
@@ -25,7 +25,7 @@ services:
   test-mysql:
     image: mysql:latest
     networks:
-      - app-network
+      - projetdevops_app-network
     environment:
       MYSQL_ROOT_PASSWORD: 
       MYSQL_DATABASE: 4se21  
@@ -33,7 +33,7 @@ services:
       - test_mysql_data:/var/lib/mysql
 
 networks:
-  app-network:
+  projetdevops_app-network:
     driver: bridge
 
 volumes:

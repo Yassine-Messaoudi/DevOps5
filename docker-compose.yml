@@ -8,16 +8,20 @@ services:
     ports:
       - "8004:8080"
     networks:
-      - projetdevops_app-network
+      - app-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://projetdevops-mysql-1:3306/4se21
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
 
   mysql:
     image: mysql:latest
     ports:
       - "3306:3306"  
     networks:
-      - projetdevops_app-network
+      - app-network
     environment:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: 4se21
     volumes:
       - mysql_data:/var/lib/mysql
@@ -25,15 +29,15 @@ services:
   test-mysql:
     image: mysql:latest
     networks:
-      - projetdevops_app-network
+      - app-network
     environment:
-      MYSQL_ROOT_PASSWORD: 
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: 4se21  
     volumes:
       - test_mysql_data:/var/lib/mysql
 
 networks:
-  projetdevops_app-network:
+  app-network:
     driver: bridge
 
 volumes:
